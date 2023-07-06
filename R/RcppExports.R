@@ -8,3 +8,10 @@ get_numbers <- function(n) {
     .Call(`_iraca_get_numbers`, n)
 }
 
+#' @title run simulation
+#' @param n_days number of days to simulate
+#' @export
+run_simulation <- function(n_days = 365L) {
+    invisible(.Call(`_iraca_run_simulation`, n_days))
+}
+

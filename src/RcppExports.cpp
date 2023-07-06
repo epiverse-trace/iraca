@@ -21,9 +21,20 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// run_simulation
+void run_simulation(int n_days);
+RcppExport SEXP _iraca_run_simulation(SEXP n_daysSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< int >::type n_days(n_daysSEXP);
+    run_simulation(n_days);
+    return R_NilValue;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_iraca_get_numbers", (DL_FUNC) &_iraca_get_numbers, 1},
+    {"_iraca_run_simulation", (DL_FUNC) &_iraca_run_simulation, 1},
     {NULL, NULL, 0}
 };
 
