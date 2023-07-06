@@ -5,7 +5,7 @@ Authors@R: c(
     person(given = "Julian", family = "Otero", , email = "jd.otero10@uniandes.edu.co", role = c("aut", "cre")),
     person(given = "Mauricio", family = "Santos-Vega", , email = "om.santos@uniandes.edu.co", role = c("aut")),
     person(given = "Juan Daniel", family = "Umaña", , email = "jd.umana10@uniandes.edu.co", role = c("ctb")),
-    person(given = "Maria Camila", family = "Tavera", , email = "mc.tavera@uniandes.edu.co", role = c("ctb")),
+    person(given = "Maria Camila", family = "Tavera", , email = "mc.tavera@uniandes.edu.co", role = c("ctb"))
   )
 Description: iraca is focused on the simulation of contagion scenarios given by 
     the interaction between mosquitoes and humans at individual levels, while 
