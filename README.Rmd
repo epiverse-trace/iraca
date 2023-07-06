@@ -27,10 +27,11 @@ knitr::opts_chunk$set(
 [![lifecycle-concept](https://raw.githubusercontent.com/reconverse/reconverse.github.io/master/images/badge-concept.svg)](https://www.reconverse.org/lifecycle.html#concept) 
 <!-- badges: end -->
 
-{{ packagename }} provides functions to ....
+{{ packagename }} is focused on the simulation of contagion scenarios given by the interaction between mosquitoes and humans at individual levels, while allowing to include possible interventions and their aftermath
+
 
 <!-- This sentence is optional and can be removed -->
-{{ packagename }} is developed at the [CENTER|similar](url) at the [UNIVERSITY|similar](url) as part of the [Epiverse-TRACE program](https://data.org/initiatives/epiverse/).
+{{ packagename }} is developed at [Universidad de Los Andes](https://uniandes.edu.co/) as part of the [Epiverse-TRACE program](https://data.org/initiatives/epiverse/).
 
 ## Installation
 
@@ -41,13 +42,6 @@ You can install the development version of {{ packagename }} from
 # install.packages("pak")
 pak::pak("{{ gh_repo }}")
 ```
-
-## Example
-
-These examples illustrate some of the current functionalities
-
-
-## Development
 
 ### Lifecycle
 
