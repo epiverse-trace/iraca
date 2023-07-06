@@ -2,6 +2,7 @@
 using namespace Rcpp;
 
 //' @title Test fun
+//' @param n Integer for the last element in the sequence
 //' @export
 // [[Rcpp::export]]
 Rcpp::NumericVector get_numbers(const int n) {
