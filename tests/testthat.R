@@ -5,8 +5,8 @@
 # Learn more about the roles of various files in:
 # * https://r-pkgs.org/tests.html
 # * https://testthat.r-lib.org/reference/test_package.html#special-files
-
+# nolint start
 library(testthat)
-library(readepi)
-
-test_check("readepi")
+library(iraca)
+# nolint end
+test_check("iraca")
