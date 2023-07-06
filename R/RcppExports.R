@@ -2,6 +2,7 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 #' @title Test fun
+#' @param n Integer for the last element in the sequence
 #' @export
 get_numbers <- function(n) {
     .Call(`_iraca_get_numbers`, n)

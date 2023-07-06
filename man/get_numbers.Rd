@@ -6,6 +6,9 @@
 \usage{
 get_numbers(n)
 }
+\arguments{
+\item{n}{Integer for the last element in the sequence}
+}
 \description{
 Test fun
 }
