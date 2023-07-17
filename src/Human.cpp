@@ -1,5 +1,6 @@
 // Human Class
 
+#include <Rcpp.h>
 #include <iostream>
 #include <cstdlib>
 #include <random>
@@ -8,29 +9,23 @@
 
 using namespace std;
 
-Human::Human(int _id, string _state, int _age, string _gender, int _highEd, float _density, int _sewage, int _gas, int _dayOfInfection, int _currentEnvironment, int _homeEnvironment, int _dailyEnvironment, float _biteRate)
+Human::Human(int _id, int _age, string _gender, int _highEd, int _homeEnvironment, int _dailyEnvironment, float _biteRate)
 {
     id = _id;
-    state = _state;
+    state = "S";
     age = _age;
     gender = _gender;
     highEd = _highEd;
-    density = _density;
-    sewage = _sewage;
-    gas = _gas;
     positionX = 0;
     positionY = 0;
     homeCoordinates = {};
     dailyCoordinates = {};
-    currentEnvironment = _currentEnvironment;
-    dayOfInfection = _dayOfInfection;
-    viremia = (dayOfInfection < -8) ? true : false;
+    currentEnvironment = _homeEnvironment;
+    dayOfInfection = 99999;
+    viremia = false;
     biteRate = _biteRate;
     homeEnvironment = _homeEnvironment;
     dailyEnvironment = _dailyEnvironment;
-    containerInt = 0;
-    netInt = 0;
-    insecticideInt = 0;
 };
 
 Human::Human(){};
@@ -53,7 +48,7 @@ void Human::changeToRecovered()
 // Set infection day
 void Human::setDayOfInfection(int _day)
 {
-    if (dayOfInfection == 0)
+    if (dayOfInfection == 99999)
     {
         dayOfInfection = _day;
     }
@@ -64,7 +59,7 @@ void Human::updateViremia(int _day)
 {
     if (state == "I" && viremia == false) // if not viremia and infected, and infected over 4 days ago turn on viremia
     {
-        if (_day - dayOfInfection >= 4 && dayOfInfection != 0)
+        if (_day - dayOfInfection >= 4 && dayOfInfection < 99999)
         {
             viremia = true;
         }
@@ -121,32 +116,4 @@ void Human::updatePosition(int _environmentId, int _positionX, int _positionY)
 void Human::updateBiteRate(float _biteRate)
 {
     biteRate = _biteRate;
-};
-
-// Container Intevention
-void Human::updateContainerInt(float _density, float _gas, float _sewage, int _environmentCases, int _campaign, float _threshold)
-{
-
-    float fx = -(-0.726 * (gender == "H") ? 1 : 0 - 4.565 * (age > 20) ? 1 : 0 + -11.354 * highEd + 2.968 * (_density) + -1.679 * _gas + 0.755 * (-_sewage));
-    //fx += 2 * (_environmentCases) + 2 * (_campaign);
-    float gx = float(1 / (1 + exp(-fx)));
-    containerInt = (gx >= _threshold) ? 1 : 0;
-};
-
-// Net Intervention
-void Human::updateNetInt(float _density, float _gas, float _sewage, int _environmentCases, int _campaign, float _threshold)
-{
-    float fx = -(-0.726 * (gender == "H") ? 1 : 0 + -4.565 * (age > 20) ? 1 : 0 + -11.354 * highEd + 2.968 * (-_density*1000) + -1.679 * _gas + 0.755 * (-_sewage));
-    //fx += 2 * (_environmentCases) + 2 * (_campaign);
-    float gx = float(1 / (1 + exp(-fx)));
-    containerInt = (gx >= _threshold) ? 1 : 0;
-};
-
-// Insecticide Intervention
-void Human::updateInsecticideInt(float _density, float _gas, float _sewage, int _environmentCases, int _campaign, float _threshold)
-{
-    float fx = -(-0.726 * (gender == "H") ? 1 : 0 + -4.565 * (age > 20) ? 1 : 0 + -11.354 * highEd + 2.968 * (-_density*1000) + -1.679 * _gas + 0.755 * (-_sewage));
-    //fx += 2 * (_environmentCases) + 2 * (_campaign);
-    float gx = float(1 / (1 + exp(-fx)));
-    containerInt = (gx >= _threshold) ? 1 : 0;
 };

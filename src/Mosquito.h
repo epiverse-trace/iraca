@@ -2,7 +2,7 @@
 #define	MOSQUITO_H
 
 // Mosquito Class
-
+#include <Rcpp.h>
 #include <iostream>
 #include <cstdlib>
 #include <vector>
@@ -21,7 +21,7 @@ class Mosquito{
         int getPositionX() {return positionX;};
         int getPositionY() {return positionY;};
         int getDayOfInfection() {return dayOfInfection;};
-        int getNumberOfBites() {return numberOfBites;};
+        int getBiteCount() {return biteCount;};
         int getNeededBites() {return neededBites;};
         bool isAlive() {return alive;};
         bool isAdult() {return adult;};
@@ -37,8 +37,7 @@ class Mosquito{
         void move(int, int);
         void updateNumberOfBites();
 
-        Mosquito(int, bool, int , int, int , int, float, int);
-        Mosquito(int, int, int, int);
+        Mosquito(int, int , int, int , int, float, int);
         Mosquito();
         ~Mosquito();
 
@@ -46,11 +45,11 @@ class Mosquito{
         int id;
         bool infected;
         int age;
+        int currentEnvironment;
         int positionX;
         int positionY;
-        int currentEnvironment;
         int dayOfInfection;
-        int numberOfBites;
+        int biteCount;
         int neededBites;
         int maxBitesPerDay;
         int bitesToday;

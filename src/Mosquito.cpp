@@ -14,18 +14,17 @@ using std::vector;
 std::random_device rd;
 std::mt19937 gen(static_cast<unsigned int>(time(nullptr)));
 
-Mosquito::Mosquito(int _id, bool _infected, int _age, int _positionX, int _positionY, int _currentEnvironment, float _developmentRate, int _lifespan)
+Mosquito::Mosquito(int _id, int _age, int _positionX, int _positionY, int _currentEnvironment, float _developmentRate, int _lifespan)
 {
     id = _id;
-    infected = _infected;
+    infected = false;
     age = _age;
+    currentEnvironment = _currentEnvironment;
     positionX = _positionX;
     positionY = _positionY;
-    currentEnvironment = _currentEnvironment;
-    std::uniform_int_distribution<> dayOfInf(-10, 0);
-    dayOfInfection = (_infected) ? dayOfInf(gen) : 0;
-    numberOfBites = 0;
-    neededBites = 100;
+    dayOfInfection = 99999;
+    biteCount = 0;
+    neededBites = 10;
     maxBitesPerDay = 4;
     bitesToday = 0;
     alive = true;
@@ -44,11 +43,9 @@ bool Mosquito::bite(float _biteProbability)
     bool output = false;
     if (adult)
     {
-        if (numberOfBites <= neededBites && bitesToday <= maxBitesPerDay)
+        if (biteCount <= neededBites && bitesToday <= maxBitesPerDay)
         {
-            std::uniform_int_distribution<> biteProb(0, 1000);
-            int temp = biteProb(gen);
-            if (temp < _biteProbability * 1000)
+            if (Rcpp::runif(1) <= _biteProbability)
             {
                 // if bites, update bite count
                 updateNumberOfBites();
@@ -65,17 +62,15 @@ bool Mosquito::infectingBite(float _infectingProb, int _day)
     bool output = false;
     if (dayOfInfection != 0 && _day - dayOfInfection > 5)
     {
-        std::uniform_int_distribution<> infectProb(0, 1000);
-        output = (infectProb(gen) <= _infectingProb * 1000); // rate
+        output = (Rcpp::runif(1) <= _infectingProb ); // rate
     }
     return output;
 };
 
-// Iss bite infectious? (Mosquito to Human)
+// Is bite infectious? (Mosquito to Human)
 bool Mosquito::infectiousBite(float _infectiousProb)
 {
-    std::uniform_int_distribution<> infectProb(0, 1000);
-    return (infectProb(gen) <= _infectiousProb * 1000); // rate
+    return (Rcpp::runif(1) <= _infectiousProb); // rate
 };
 
 // Change state
@@ -117,5 +112,5 @@ void Mosquito::move(int _newX, int _newY)
 void Mosquito::updateNumberOfBites()
 {
     bitesToday++;
-    numberOfBites++;
+    biteCount++;
 };
