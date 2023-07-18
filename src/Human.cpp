@@ -7,9 +7,7 @@
 #include <ctime>
 #include "Human.h"
 
-using namespace std;
-
-Human::Human(int _id, int _age, string _gender, int _highEd, int _homeEnvironment, int _dailyEnvironment, float _biteRate)
+Human::Human(int _id, int _age, std::string _gender, int _highEd, int _homeEnvironment, int _dailyEnvironment, float _biteRate)
 {
     id = _id;
     state = "S";

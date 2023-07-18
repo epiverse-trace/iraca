@@ -8,16 +8,15 @@
 #include <map>
 #include <vector>
 
-using namespace std;
-using std::vector;
+using namespace Rcpp;
 
 class Human
 {
 public:
     int getId() { return id; };
-    string getState() { return state; };
+    std::string getState() { return state; };
     int getAge() { return age; };
-    string getGender() { return gender; };
+    std::string getGender() { return gender; };
     int getHighEd() { return highEd; };
     int getcurrentEnvironment() { return currentEnvironment; };
     int getPositionX() { return positionX; };
@@ -41,14 +40,14 @@ public:
     void updatePosition(int, int, int);
     void updateBiteRate(float);
 
-    Human(int, int, string, int, int, int, float);
+    Human(int, int, std::string, int, int, int, float);
     Human();
 
 private:
     int id;
-    string state;
+    std::string state;
     int age;
-    string gender;
+    std::string gender;
     bool highEd;
     int currentEnvironment;
     int positionX;
@@ -58,8 +57,8 @@ private:
     int dayOfInfection;
     bool viremia;
     float biteRate;
-    vector<int> homeCoordinates;
-    vector<int> dailyCoordinates;
+    std::vector<int> homeCoordinates;
+    std::vector<int> dailyCoordinates;
 };
 
 #endif

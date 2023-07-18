@@ -9,8 +9,7 @@
 #include <map>
 #include <random>
 
-using namespace std;
-using std::vector;
+using namespace Rcpp;
 
 class Mosquito{
     public:
