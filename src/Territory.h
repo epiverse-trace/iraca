@@ -38,11 +38,11 @@ public:
     std::list<Mosquito> getMosquitoes() {return mosquitoes; };
     std::vector<float> getMovementPatterns() {return movementPatterns; };
 
-    Territory(int, float, float, int, float, float, std::vector<float>, float, float, float, float, std::vector<float>);
+    Territory(int, float, float, int, float, float, std::vector<float>, float, float, std::vector<float>);
     Territory();
 
-    void initializeHumans();
-    void initializeMosquitoes();
+    void initializeHumans(float);
+    void initializeMosquitoes(int, float);
     void addHuman(Human);
     void removeHuman(Human);
     void resetHumans();
@@ -50,10 +50,14 @@ public:
     void removeMosquito(Mosquito);
     void updateDeathRates(float, int);
     void updateBirthRate(float, int);
-    void updateMosquitoes();
-    void updateHumans();
-    void interaction();
     void moveMosquitoes();
+    void updateMosquitoes();
+    void updateHumans(int);
+    void interaction(int, float, float);
+    bool checkProximity(Human *, Mosquito *);
+    void moveMosquitoes();
+    void birthMosquitoes(float, float);
+    void deathMosquitoes(float, float);
 
 private:
     int id;
