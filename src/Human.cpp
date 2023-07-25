@@ -24,6 +24,8 @@ Human::Human(int _id, int _age, std::string _gender, int _highEd, int _homeEnvir
     biteRate = _biteRate;
     homeEnvironment = _homeEnvironment;
     dailyEnvironment = _dailyEnvironment;
+    // Coordinates
+    
 };
 
 Human::Human(){};
