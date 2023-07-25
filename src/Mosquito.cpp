@@ -14,14 +14,16 @@ using std::vector;
 std::random_device rd;
 std::mt19937 gen(static_cast<unsigned int>(time(nullptr)));
 
-Mosquito::Mosquito(int _id, int _age, int _positionX, int _positionY, int _currentEnvironment, float _developmentRate, int _lifespan)
+Mosquito::Mosquito(int _id, int _age, int _positionX, int _positionY, int _currentTerritory, float _developmentRate, int _lifespan)
 {
     id = _id;
     infected = false;
     age = _age;
-    currentEnvironment = _currentEnvironment;
+    currentTerritory = _currentTerritory;
     positionX = _positionX;
     positionY = _positionY;
+    initialPositionX = _positionX;
+    initialPositionY = _positionY;
     dayOfInfection = 99999;
     biteCount = 0;
     neededBites = 10;
@@ -48,7 +50,7 @@ bool Mosquito::bite(float _biteProbability)
             if (R::runif(0, 1) <= _biteProbability)
             {
                 // if bites, update bite count
-                updateNumberOfBites();
+                updateBiteCount();
                 output = true;
             }
         }
@@ -102,14 +104,14 @@ void Mosquito::die()
 };
 
 // Movement
-void Mosquito::move(int _newX, int _newY)
+void Mosquito::move(int _positionX, int _positionY)
 {
-    positionX = _newX;
-    positionY = _newY;
+    positionX = _positionX;
+    positionY = _positionY;
 };
 
 // Bite count
-void Mosquito::updateNumberOfBites()
+void Mosquito::updateBiteCount()
 {
     bitesToday++;
     biteCount++;

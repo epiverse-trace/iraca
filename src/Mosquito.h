@@ -16,9 +16,11 @@ class Mosquito{
         int getId() {return id;};
         bool isInfected() {return infected;};
         int getAge() {return age;};
-        int getCurrentEnvironment() {return currentEnvironment;};
+        int getCurrentTerritory() {return currentTerritory;};
         int getPositionX() {return positionX;};
         int getPositionY() {return positionY;};
+        int getInitialPositionX() {return initialPositionX; };
+        int getInitialPositionY() {return initialPositionY; };
         int getDayOfInfection() {return dayOfInfection;};
         int getBiteCount() {return biteCount;};
         int getNeededBites() {return neededBites;};
@@ -34,7 +36,8 @@ class Mosquito{
         void updateAge();
         void die();
         void move(int, int);
-        void updateNumberOfBites();
+        void updateBiteCount();
+        void updateMosquito(int, int);
 
         Mosquito(int, int , int, int , int, float, int);
         Mosquito();
@@ -44,9 +47,11 @@ class Mosquito{
         int id;
         bool infected;
         int age;
-        int currentEnvironment;
+        int currentTerritory;
         int positionX;
         int positionY;
+        int initialPositionX;
+        int initialPositionY;
         int dayOfInfection;
         int biteCount;
         int neededBites;
