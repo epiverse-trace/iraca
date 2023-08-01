@@ -7,7 +7,7 @@
 #include <ctime>
 #include "Human.h"
 
-Human::Human(int _id, int _age, std::string _gender, int _highEd, int _homeEnvironment, int _dailyEnvironment, float _biteRate)
+Human::Human(int _id, int _age, std::string _gender, int _highEd, int _homeTerritory, int _dailyTerritory, float _biteRate)
 {
     id = _id;
     state = "S";
@@ -18,12 +18,12 @@ Human::Human(int _id, int _age, std::string _gender, int _highEd, int _homeEnvir
     positionY = 0;
     homeCoordinates = {};
     dailyCoordinates = {};
-    currentEnvironment = _homeEnvironment;
+    currentTerritory = _homeTerritory;
     dayOfInfection = 99999;
     viremia = false;
     biteRate = _biteRate;
-    homeEnvironment = _homeEnvironment;
-    dailyEnvironment = _dailyEnvironment;
+    homeTerritory = _homeTerritory;
+    dailyTerritory = _dailyTerritory;
     // Coordinates
     
 };
@@ -74,10 +74,10 @@ void Human::updateViremia(int _day)
     }
 };
 
-// change environment when moving
-void Human::changeEnvironment(int _environmentId)
+// change territory when moving
+void Human::changeTerritory(int _territoryId)
 {
-    currentEnvironment = _environmentId;
+    currentTerritory = _territoryId;
 };
 
 // Set coordinates for daily interaction (work/school)
@@ -93,14 +93,14 @@ void Human::setHomeCoordinates(int _positionX, int _positionY)
 };
 
 // Update position (constant if home or work/school)
-void Human::updatePosition(int _environmentId, int _positionX, int _positionY)
+void Human::updatePosition(int _territoryId, int _positionX, int _positionY)
 {
-    if (_environmentId == dailyEnvironment)
+    if (_territoryId == dailyTerritory)
     {
         positionX = dailyCoordinates[0];
         positionY = dailyCoordinates[1];
     }
-    else if (_environmentId == homeEnvironment)
+    else if (_territoryId == homeTerritory)
     {
         positionX = homeCoordinates[0];
         positionY = homeCoordinates[1];

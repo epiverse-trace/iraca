@@ -18,11 +18,11 @@ public:
     int getAge() { return age; };
     std::string getGender() { return gender; };
     int getHighEd() { return highEd; };
-    int getcurrentEnvironment() { return currentEnvironment; };
+    int getcurrentTerritory() { return currentTerritory; };
     int getPositionX() { return positionX; };
     int getPositionY() { return positionY; };
-    int getHomeEnvironment() { return homeEnvironment; };
-    int getDailyEnvironment() { return dailyEnvironment; };
+    int getHomeTerritory() { return homeTerritory; };
+    int getDailyTerritory() { return dailyTerritory; };
     int getDayOfInfection() { return dayOfInfection; };
     bool getViremia() { return viremia; };
     float getBiteRate() { return biteRate; };
@@ -34,7 +34,7 @@ public:
     void changeToRecovered();
     void setDayOfInfection(int);
     void updateViremia(int);
-    void changeEnvironment(int);
+    void changeTerritory(int);
     void setDailyCoordinates(int, int);
     void setHomeCoordinates(int, int);
     void updatePosition(int, int, int);
@@ -49,11 +49,11 @@ private:
     int age;
     std::string gender;
     bool highEd;
-    int currentEnvironment;
+    int currentTerritory;
     int positionX;
     int positionY;
-    int homeEnvironment;
-    int dailyEnvironment;
+    int homeTerritory;
+    int dailyTerritory;
     int dayOfInfection;
     bool viremia;
     float biteRate;
