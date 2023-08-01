@@ -9,7 +9,7 @@
 #include "Territory.h"
 #include "utils.cpp"
 
-Territory::Territory(int _id, float _area, float _density, int _population, float _gas, float _sewage, std::vector<float> _ageProp, float _maleProp, float _highedProp, vector<float> _movementPatterns)
+Territory::Territory(int _id, float _area, float _density, int _population, float _gas, float _sewage, std::vector<float> _ageProp, float _maleProp, float _highedProp, std::vector<float> _movementPatterns)
 {
     id = _id;
     density = _density;
@@ -72,12 +72,16 @@ void Territory::initializeHumans(float _infectedHumans = 0)
     }
 };
 
-void Territory::initializeMosquitoes(int _ammount, float _infectedMosquitoes)
+void Territory::initializeMosquitoes(int _ammount, float _infectedMosquitoes, bool onlyLarvae = true)
 {
     std::uniform_int_distribution<> ageMosquito(0, 30);
     for (int mos = 0; mos <= _ammount; mos++)
     {
-        int _age = int(R::runif(0, 32));
+        int _age = 0;
+        
+        if(!onlyLarvae){
+            _age = int(R::runif(0, 32));   
+        }
         int _positionX = int(R::runif(0, length));
         int _positionY = int(R::runif(0, width));
         float _developmentRate = 0.091;
@@ -87,7 +91,7 @@ void Territory::initializeMosquitoes(int _ammount, float _infectedMosquitoes)
 
         // Is mosquito infected?
         bool infectedMosquito = R::runif(0, 1) <= _infectedMosquitoes;
-        if (infectedMosquito)
+        if (infectedMosquito && !onlyLarvae)
         {
             newMosquito.changeToInfected(int(R::runif(-_lifespan, 0)));
             newMosquito.updateBiteCount();
@@ -166,6 +170,23 @@ void Territory::moveMosquitoes()
     }
 };
 
+void Territory::moveHumans()
+{
+    for (auto human : humans)
+    {
+        Human *tempHuman = &human;
+        if(tempHuman->getHomeTerritory() == id){
+            tempHuman->changeTerritory(tempHuman->getDailyTerritory());
+            tempHuman->updatePosition(tempHuman->getDailyTerritory(), 0, 0);
+        }
+        else
+        {
+            tempHuman->changeTerritory(tempHuman->getHomeTerritory());
+            tempHuman->updatePosition(tempHuman->getHomeTerritory(), 0, 0);
+        }
+    }
+};
+
 void Territory::updateHumans(int _day)
 {
     for (auto human : humans)
@@ -221,55 +242,40 @@ void Territory::updateMosquitoes()
     }
 };
 
-void Territory::interaction(int _day, float _temperature, float _maxTemperature)
+void Territory::interaction(int _day)
 {
-    for (int day = 0; day <= _day; day++)
+    for (auto &human : humans)
     {
-        for (int time = 0; time < 2; time++)
+        Human *tempHuman = &human;
+        for (auto &mosquito : mosquitoes)
         {
-            for (auto &human : humans)
+            Mosquito *tempMosquito = &mosquito;
+            // Check if human and mosquito are in the same position
+            if (checkProximity(tempHuman, tempMosquito))
             {
-                Human *tempHuman = &human;
-                for (auto &mosquito : mosquitoes)
+                // Try to bite
+                if (tempMosquito->bite(tempHuman->getBiteRate()))
                 {
-                    Mosquito *tempMosquito = &mosquito;
-                    // Check if human and mosquito are in the same position
-                    if (checkProximity(tempHuman, tempMosquito))
+                    // Could or not be infectuous
+                    if (tempMosquito->isInfected())
                     {
-                        // Try to bite
-                        if (tempMosquito->bite(tempHuman->getBiteRate()))
+                        // Mosquit to Human intection
+                        if (tempMosquito->infectingBite(0.11, _day))
                         {
-                            // Could or not be infectuous
-                            if (tempMosquito->isInfected())
-                            {
-                                // Mosquit to Human intection
-                                if (tempMosquito->infectingBite(0.11, _day))
-                                {
-                                    tempHuman->changeToInfected(_day);
-                                }
-                            }
-                            else if (tempHuman->getViremia())
-                            {
-                                // Human to Mosquito intection
-                                if (tempMosquito->infectiousBite(1))
-                                {
-                                    tempMosquito->changeToInfected(_day);
-                                }
-                            }
+                            tempHuman->changeToInfected(_day);
+                        }
+                    }
+                    else if (tempHuman->getViremia())
+                    {
+                        // Human to Mosquito intection
+                        if (tempMosquito->infectiousBite(1))
+                        {
+                            tempMosquito->changeToInfected(_day);
                         }
                     }
                 }
             }
         }
-        updateMosquitoes();
-        updateHumans(_day);
-        // Move humans from home to work and viceversa unless it's the weekend, where movement is random
-        // Here
-        // birth and death rates (how?)
-
-        moveMosquitoes();
-        deathMosquitoes(_temperature, _maxTemperature);
-        birthMosquitoes(_temperature, _maxTemperature);
     }
 };
 
@@ -282,3 +288,23 @@ bool Territory::checkProximity(Human *human, Mosquito *mosquito)
     }
     return sameLocation;
 }
+
+std::vector<int> Territory::contagions()
+{
+    std::vector<int> SIR = {0, 0, 0};
+    for(auto human : humans){
+        if(human.getState() == "I")
+        {
+            SIR[1] += 1;
+        }
+        else if(human.getState() == "R")
+        {
+            SIR[2] += 1;
+        }
+        else
+        {
+            SIR[0] += 1;
+        }
+    }
+    return SIR;
+};

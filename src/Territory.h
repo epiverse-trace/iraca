@@ -42,7 +42,7 @@ public:
     Territory();
 
     void initializeHumans(float);
-    void initializeMosquitoes(int, float);
+    void initializeMosquitoes(int, float, bool);
     void addHuman(Human);
     void removeHuman(Human);
     void resetHumans();
@@ -51,13 +51,15 @@ public:
     void updateDeathRates(float, int);
     void updateBirthRate(float, int);
     void moveMosquitoes();
+    void moveHumans();
     void updateMosquitoes();
     void updateHumans(int);
-    void interaction(int, float, float);
+    void interaction(int);
     bool checkProximity(Human *, Mosquito *);
     void moveMosquitoes();
     void birthMosquitoes(float, float);
     void deathMosquitoes(float, float);
+    std::vector<int> contagions();
 
 private:
     int id;
