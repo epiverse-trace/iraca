@@ -4,51 +4,41 @@
 // Simulation Class
 
 #include <iostream>
+#include <Rcpp.h>
 #include <omp.h>
 #include <cmath>
 #include <sstream>
 #include <fstream>
 #include <string>
 #include <iterator>
-#include <map>
-#include <vector>
-#include "Intervention.h"
-#include "Intervention.cpp"
-
-using namespace std;
-using std::vector;
+#include "Territory.h"
+#include "Territory.cpp"
 
 class Simulation
 {
 public:
-    vector<std::vector<string>> simulationData(string);
-    vector<std::vector<float>> generalData(string);
-    int weightedRandom(vector<float>);
-    void initialize(string, string);
-    list<int> deathRate(Environment *, list<int>, int);
-    int birthRate(int, Environment *, int);
-    void deleteMosquitoes(list<int>, Environment *);
-    void addMosquitoes(int, Environment *, int, int);
-    list<int> updateMosquitoes(Environment *);
-    void updateHumans(int);
-    void writeFile(vector<vector<int>>, string);
-    void simulate();
+    int getDays() {return days; };
+    std::map<int, Territory> getTerritories() {return territories; };
+    Rcpp::DataFrame getTerritoriesData() {return territoriesData; };
+    Rcpp::DataFrame getTemperatureData() {temperatureData; };
+    Rcpp::DataFrame getMovementData() {return movementData; };
 
-    Simulation(int);
+    Simulation(int, Rcpp::DataFrame, Rcpp::DataFrame, Rcpp::DataFrame);
+
+    void initialize();
+    Rcpp::DataFrame simulate(int);
+    void moveHumans();
+
+
 
 private:
-    int nDays;
-    string humanOutputFile;
-    string mosquitoOutputFile;
-    map<int, Environment> environments;
-    map<int, Human> humans;
-    map<int, Mosquito> mosquitoes;
-    Movement mover;
-    Intervention interventor;
-    bool containerIntervention;
-    bool insecticideIntervention;
-    bool netIntervention;
-    float sensitivity;
+    int days;
+    std::map<int, Territory> territories;
+    Rcpp::DataFrame territoriesData;
+    Rcpp::DataFrame temperatureData;
+    Rcpp::DataFrame movementData;
+    std::list<Human> transitHumans;
+
 };
 
 #endif
