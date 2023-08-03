@@ -42,6 +42,7 @@ bool Mosquito::bite(float _biteProbability)
         if (biteCount <= neededBites && bitesToday <= maxBitesPerDay)
         {
             if (R::runif(0, 1) <= _biteProbability)
+            //if(0.2 <= _biteProbability)
             {
                 // if bites, update bite count
                 updateBiteCount();
@@ -59,6 +60,7 @@ bool Mosquito::infectingBite(float _infectingProb, int _day)
     if (dayOfInfection != 0 && _day - dayOfInfection > 5)
     {
         output = (R::runif(0, 1) <= _infectingProb ); // rate
+        //output = true;
     }
     return output;
 };
@@ -67,6 +69,7 @@ bool Mosquito::infectingBite(float _infectingProb, int _day)
 bool Mosquito::infectiousBite(float _infectiousProb)
 {
     return (R::runif(0, 1) <= _infectiousProb); // rate
+    //return true;
 };
 
 // Change state

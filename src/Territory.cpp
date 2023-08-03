@@ -2,6 +2,9 @@
 
 #include "Territory.h"
 
+//std::random_device rd;
+//std::mt19937 gen(static_cast<unsigned int>(time(nullptr)));
+
 Territory::Territory(int _id, float _area, float _density, int _population, float _gas, float _sewage, std::vector<float> _ageProp, float _maleProp, float _highedProp, std::vector<float> _movementPatterns)
 {
     id = _id;
@@ -45,13 +48,22 @@ void Territory::initializeHumans(float _infectedHumans = 0)
         // random position in grid
         int _positionX = int(R::runif(0, length));
         int _positionY = int(R::runif(0, width));
+        // std::uniform_int_distribution<> distrHumanX(0, length);
+        // int _positionX = distrHumanX(gen);
+        // std::uniform_int_distribution<> distrHumanY(0, width);
+        // int _positionY = distrHumanY(gen);
         newHuman.setHomeCoordinates(_positionX, _positionY);
 
         // Will human be infected?
         bool infectedHuman = R::runif(0, 1) <= _infectedHumans;
+        //std::uniform_real_distribution<> infected(0, 1.0);
+        //bool infectedHuman = infected(gen) < _infectedHumans;
         if (infectedHuman)
         {
             newHuman.changeToInfected(int(R::runif(-14, 0)));
+            //std::uniform_int_distribution<> changeInfH(-14, 0);
+            //int _tempInfH = changeInfH(gen);
+            //newHuman.changeToInfected(_tempInfH);
             newHuman.updateViremia(0);
         }
 
@@ -67,10 +79,16 @@ void Territory::initializeMosquitoes(int _ammount, float _infectedMosquitoes, bo
         int _age = 0;
         
         if(!onlyLarvae){
-            _age = int(R::runif(0, 32));   
+            _age = int(R::runif(0, 32)); 
+            //std::uniform_int_distribution<> ageM(0, 32);
+            //_age = ageM(gen);
         }
         int _positionX = int(R::runif(0, length));
         int _positionY = int(R::runif(0, width));
+        // std::uniform_int_distribution<> distrHumanX(0, length);
+        // int _positionX = distrHumanX(gen);
+        // std::uniform_int_distribution<> distrHumanY(0, width);
+        // int _positionY = distrHumanY(gen);
         float _developmentRate = 0.091;
         int _lifespan = 30;
         // mosquito creation
@@ -78,9 +96,14 @@ void Territory::initializeMosquitoes(int _ammount, float _infectedMosquitoes, bo
 
         // Is mosquito infected?
         bool infectedMosquito = R::runif(0, 1) <= _infectedMosquitoes;
+        // std::uniform_real_distribution<> infected_2(0, 1.0);
+        // bool infectedMosquito = infected_2(gen) < _infectedMosquitoes;
         if (infectedMosquito && !onlyLarvae)
         {
             newMosquito.changeToInfected(int(R::runif(-_lifespan, 0)));
+            //std::uniform_int_distribution<> changeInf(-_lifespan, 0);
+            //int _tempInf = changeInf(gen);
+            //newMosquito.changeToInfected(_tempInf);
             newMosquito.updateBiteCount();
         }
 
@@ -142,7 +165,10 @@ void Territory::moveMosquitoes()
 
             int newPositionX = tempMosquito->getPositionX() + int(R::runif(-2, 2));
             int newPositionY = tempMosquito->getPositionY() + int(R::runif(-2, 2));
-
+            // std::uniform_int_distribution<> distrHumanX(-2, 2);
+            // int newPositionX = distrHumanX(gen) + tempMosquito->getPositionX();
+            // std::uniform_int_distribution<> distrHumanY(-2, 2);
+            // int newPositionY = distrHumanY(gen) + tempMosquito->getPositionY();
             if (newPositionX <= length && newPositionX >= 0 && abs(newPositionX - mosquito.getInitialPositionX()) <= 6)
             {
                 currentPositionX = newPositionX;
@@ -198,6 +224,8 @@ void Territory::deathMosquitoes(float _temperature, float _maxTemperature)
         if (mosquito.isAdult())
         {
             bool die = R::runif(0, 1) <= deathRateAdults;
+            //std::uniform_real_distribution<> death(0, 1.0);
+            //bool die = death(gen) < deathRateAdults;
             if (die)
             {
                 mosquito.die();
@@ -206,6 +234,8 @@ void Territory::deathMosquitoes(float _temperature, float _maxTemperature)
         else        
         {
             bool die = R::runif(0, 1) <= deathRateAquatic;
+            //std::uniform_real_distribution<> death_2(0, 1.0);
+            //bool die = death_2(gen) < deathRateAdults;
             if (die)
             {
                 mosquito.die();
@@ -306,6 +336,8 @@ int Territory::weightedRandom(std::vector<float> probabilities)
         accumulated = transformed;
     }
     int randomInteger = Rcpp::sample(1000, 1)[0];
+    //std::uniform_int_distribution<> distInt(0, 1000);
+    //int randomInteger =  distInt(gen);
     for (int i = 0; i < int(probabilities.size()); i++)
     {
         if (randomInteger < transformedP[i])

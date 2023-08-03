@@ -8,8 +8,11 @@
 #include <sstream>
 #include <fstream>
 #include <iterator>
+#include <vector>
+#include <map>
 #include <Rcpp.h>
 #include "Territory.h"
+// #include "Territory.cpp"
 
 using namespace Rcpp;
 
@@ -27,6 +30,7 @@ public:
 
     void initialize();
     Rcpp::DataFrame simulate(int);
+    //void simulate(int);
     void moveHumans();
 
 private:

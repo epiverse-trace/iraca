@@ -10,7 +10,11 @@
 #include <map>
 #include <Rcpp.h>
 #include "Human.h"
+// #include "Human.cpp"
 #include "Mosquito.h"
+// #include "Mosquito.cpp"
+//#include <time.h>
+//#include <random>
 
 using namespace Rcpp;
 
@@ -59,7 +63,8 @@ public:
     void deathMosquitoes(float, float);
     std::vector<int> contagions();
     int weightedRandom(std::vector<float>);
-
+    std::list<Human> humans;
+    std::list<Mosquito> mosquitoes;
 private:
     int id;
     float area;
@@ -77,8 +82,6 @@ private:
     double birthRate;
     double deathRateAdults;
     double deathRateAquatic;
-    std::list<Human> humans;
-    std::list<Mosquito> mosquitoes;
     std::list<int> intervenedAreas;
     std::vector<float> movementPatterns;
 

@@ -19,7 +19,7 @@ Simulation::~Simulation(){
 void Simulation::initialize()
 {
     // data input
-    for (int ter = 0; ter < int(territoriesData.size()); ter++)
+    for (int ter = 0; ter < int(territoriesData.size()) - 1; ter++)
     {
         // Environment attributes from DANE database
         float density = territoriesData[ter][45];
@@ -52,6 +52,7 @@ void Simulation::initialize()
 }
 
 Rcpp::DataFrame Simulation::simulate(int _ndays)
+//void Simulation::simulate(int _ndays)
 {
     initialize();
     std::vector<int> vectorS = {};
@@ -62,6 +63,21 @@ Rcpp::DataFrame Simulation::simulate(int _ndays)
         int suceptible = 0;
         int infected = 0;
         int recovered = 0;
+        if(day == 0){
+            for (auto &territory : territories)
+            {
+                Territory * tempTerritory = &territory.second;
+                for(auto &human : tempTerritory->humans)
+                {
+                    int dailyEnv = human.getDailyTerritory();
+                    int _positionX = int(R::runif(0, territories[dailyEnv].getLength()));
+                    int _positionY = int(R::runif(0, territories[dailyEnv].getWidth()));
+                    //_positionX = distrHumanX(gen);
+                    //_positionY = distrHumanY(gen);
+                    human.setDailyCoordinates(_positionX, _positionY);   ////RETHINK THIS
+                }
+            }
+        }
         for (int time = 0; time < 2; time++)
         {
             for (auto &territory : territories) // paralelizable
@@ -75,7 +91,7 @@ Rcpp::DataFrame Simulation::simulate(int _ndays)
                 tempTerritory->moveMosquitoes();
                 tempTerritory->moveHumans();
 
-                transitHumans.assign(tempTerritory->getHumans().begin(), tempTerritory->getHumans().end());
+                transitHumans.assign(tempTerritory->humans.begin(), tempTerritory->humans.end());
                 tempTerritory->resetHumans();
             }
             for (auto human : transitHumans)
@@ -98,6 +114,6 @@ Rcpp::DataFrame Simulation::simulate(int _ndays)
             vectorR.push_back(recovered);
         }
     }
-    Rcpp::DataFrame SIRM = Rcpp::DataFrame::create(Named("S") = vectorS, Named("I") = vectorI, Named("R") = vectorR);
-    return SIRM;
+   Rcpp::DataFrame SIRM = Rcpp::DataFrame::create(Named("S") = vectorS, Named("I") = vectorI, Named("R") = vectorR);
+   return SIRM;
 }
