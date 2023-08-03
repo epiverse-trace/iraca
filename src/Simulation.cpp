@@ -1,11 +1,7 @@
 
 // Simulation Class
 
-#include <iostream>
-#include <cstdlib>
 #include "Simulation.h"
-
-using namespace std;
 
 Simulation::Simulation(int _days, std::vector<std::vector<float>> _territoriesData, std::vector<std::vector<float>> _temperatureData, std::vector<std::vector<float>> _movementData)
 {
@@ -15,11 +11,10 @@ Simulation::Simulation(int _days, std::vector<std::vector<float>> _territoriesDa
     movementData = _movementData;
     std::map<int, Territory> territories;
     std::list<Human> transitHumans;
-};
+}
 
 Simulation::~Simulation(){
-    
-};
+}
 
 void Simulation::initialize()
 {
@@ -54,7 +49,7 @@ void Simulation::initialize()
         // Updating list
         territories.insert(std::pair<int, Territory>(ter, newTerritory));
     }
-};
+}
 
 Rcpp::DataFrame Simulation::simulate(int _ndays)
 {
@@ -105,4 +100,4 @@ Rcpp::DataFrame Simulation::simulate(int _ndays)
     }
     Rcpp::DataFrame SIRM = Rcpp::DataFrame::create(Named("S") = vectorS, Named("I") = vectorI, Named("R") = vectorR);
     return SIRM;
-};
+}

@@ -3,15 +3,16 @@
 
 // Territory Class
 
-#include <iostream>
 #include <cstdlib>
-#include <map>
+#include <iostream>
 #include <vector>
 #include <list>
-#include <cmath>
+#include <map>
 #include <Rcpp.h>
 #include "Human.h"
 #include "Mosquito.h"
+
+using namespace Rcpp;
 
 class Territory
 {
@@ -57,6 +58,7 @@ public:
     void birthMosquitoes(float, float);
     void deathMosquitoes(float, float);
     std::vector<int> contagions();
+    int weightedRandom(std::vector<float>);
 
 private:
     int id;

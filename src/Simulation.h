@@ -3,16 +3,15 @@
 
 // Simulation Class
 
+#include <cstdlib>
 #include <iostream>
-#include <Rcpp.h>
-#include <omp.h>
-#include <cmath>
 #include <sstream>
 #include <fstream>
-#include <string>
 #include <iterator>
+#include <Rcpp.h>
 #include "Territory.h"
-#include "Territory.cpp"
+
+using namespace Rcpp;
 
 class Simulation
 {

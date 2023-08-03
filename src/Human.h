@@ -5,7 +5,6 @@
 #include <cstdlib>
 #include <iostream>
 #include <vector>
-#include <map>
 #include <Rcpp.h>
 
 using namespace Rcpp;

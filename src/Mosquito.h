@@ -2,12 +2,10 @@
 #define	MOSQUITO_H
 
 // Mosquito Class
-#include <Rcpp.h>
-#include <iostream>
 #include <cstdlib>
+#include <iostream>
 #include <vector>
-#include <map>
-#include <random>
+#include <Rcpp.h>
 
 using namespace Rcpp;
 
@@ -37,7 +35,6 @@ class Mosquito{
         void die();
         void move(int, int);
         void updateBiteCount();
-        void updateMosquito(int, int);
 
         bool operator==(const Mosquito& other) const;
         Mosquito(int, int , int, int , int, float, int);

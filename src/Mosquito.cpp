@@ -1,18 +1,6 @@
 // Mosquito Class
 
-#include <iostream>
-#include <cstdlib>
-#include <map>
-#include <vector>
-#include <time.h>
 #include "Mosquito.h"
-
-using namespace std;
-using std::vector;
-
-// Random numbers
-std::random_device rd;
-std::mt19937 gen(static_cast<unsigned int>(time(nullptr)));
 
 // Initialization (different ages and probability to )
 Mosquito::Mosquito(int _id, int _age, int _positionX, int _positionY, int _currentTerritory, float _developmentRate, int _lifespan)

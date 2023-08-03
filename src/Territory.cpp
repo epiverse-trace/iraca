@@ -1,13 +1,6 @@
 // Territory Class
 
-#include <Rcpp.h>
-#include <iostream>
-#include <cstdlib>
-#include <map>
-#include <vector>
-#include <algorithm>
 #include "Territory.h"
-#include "utils.cpp"
 
 Territory::Territory(int _id, float _area, float _density, int _population, float _gas, float _sewage, std::vector<float> _ageProp, float _maleProp, float _highedProp, std::vector<float> _movementPatterns)
 {
@@ -29,7 +22,7 @@ Territory::Territory(int _id, float _area, float _density, int _population, floa
     std::list<Mosquito> mosquitoes;
     std::list<int> intervenedAreas;
     std::vector<float> movementPatterns = _movementPatterns;
-};
+}
 
 Territory::Territory(){};
 
@@ -65,11 +58,10 @@ void Territory::initializeHumans(float _infectedHumans = 0)
         // Adding to human list
         addHuman(newHuman);
     }
-};
+}
 
 void Territory::initializeMosquitoes(int _ammount, float _infectedMosquitoes, bool onlyLarvae = true)
 {
-    std::uniform_int_distribution<> ageMosquito(0, 30);
     for (int mos = 0; mos <= _ammount; mos++)
     {
         int _age = 0;
@@ -94,33 +86,33 @@ void Territory::initializeMosquitoes(int _ammount, float _infectedMosquitoes, bo
 
         addMosquito(newMosquito);
     }
-};
+}
 
 // Add and remove humans and mosquitoes
 void Territory::addHuman(Human _human)
 {
     humans.push_back(_human);
-};
+}
 
 void Territory::removeHuman(Human _human)
 {
     humans.remove(_human);
-};
+}
 
 void Territory::addMosquito(Mosquito _mosquito)
 {
     mosquitoes.push_back(_mosquito);
-};
+}
 
 void Territory::removeMosquito(Mosquito _mosquito)
 {
     mosquitoes.remove(_mosquito);
-};
+}
 
 void Territory::resetHumans()
 {
     humans.clear();
-};
+}
 
 // Birth and Death rates for mosquitoes
 void Territory::updateDeathRates(float _temperature, int _days_ov_90)
@@ -129,14 +121,14 @@ void Territory::updateDeathRates(float _temperature, int _days_ov_90)
     double days_ov_90 = (double)(_days_ov_90);
     deathRateAdults = (double)(0.8692 - 0.159 * temperature + 0.01116 * pow(temperature, 2) - 0.0003409 * pow(temperature, 3) + 0.000003804 * pow(temperature, 4) + 0.027 + 0.047 * days_ov_90);
     deathRateAquatic = (double)(2.13 - 0.3797 * temperature + 0.02457 * pow(temperature, 2) - 0.0006778 * pow(temperature, 3) + 0.000006792 * pow(temperature, 4) + 0.026 + 0.03 * days_ov_90);
-};
+}
 
 void Territory::updateBirthRate(float _temperature, int _days_ov_90)
 {
     double temperature = (double)(_temperature);
     double days_ov_90 = (double)(_days_ov_90);
     birthRate = (double)(-0.000016 * pow(temperature, 3) + 0.00117114 * pow(temperature, 2) - 0.024371 * temperature + 0.186171 + 0.004 + 0.018 * days_ov_90);
-};
+}
 
 void Territory::moveMosquitoes()
 {
@@ -160,10 +152,10 @@ void Territory::moveMosquitoes()
                 currentPositionY = newPositionY;
             };
 
-            tempMosquito->updateMosquito(currentPositionX, currentPositionY);
+            tempMosquito->move(currentPositionX, currentPositionY);
         }
     }
-};
+}
 
 void Territory::moveHumans()
 {
@@ -180,7 +172,7 @@ void Territory::moveHumans()
             tempHuman->updatePosition(tempHuman->getHomeTerritory(), 0, 0);
         }
     }
-};
+}
 
 void Territory::updateHumans(int _day)
 {
@@ -189,14 +181,14 @@ void Territory::updateHumans(int _day)
         Human *tempHuman = &human;
         tempHuman->updateViremia(_day);
     }
-};
+}
 
 void Territory::birthMosquitoes(float _temperature, float _maxTemperature)
 {
     updateBirthRate(_temperature, _maxTemperature);
     int newMosquitoes = int(birthRate * mosquitoes.size());
     initializeMosquitoes(newMosquitoes, 0);
-};
+}
 
 void Territory::deathMosquitoes(float _temperature, float _maxTemperature)
 {
@@ -235,7 +227,7 @@ void Territory::updateMosquitoes()
             mosquitoes.remove(mosquito);
         }
     }
-};
+}
 
 void Territory::interaction(int _day)
 {
@@ -270,7 +262,7 @@ void Territory::interaction(int _day)
             }
         }
     }
-};
+}
 
 bool Territory::checkProximity(Human human, Mosquito mosquito)
 {
@@ -300,4 +292,27 @@ std::vector<int> Territory::contagions()
         }
     }
     return SIR;
-};
+}
+
+int Territory::weightedRandom(std::vector<float> probabilities)
+{
+    int output = 0;
+    std::vector<int> transformedP;
+    int accumulated = 0;
+    for (float i : probabilities)
+    {
+        int transformed = int(i * 1000) + accumulated;
+        transformedP.push_back(transformed);
+        accumulated = transformed;
+    }
+    int randomInteger = Rcpp::sample(1000, 1)[0];
+    for (int i = 0; i < int(probabilities.size()); i++)
+    {
+        if (randomInteger < transformedP[i])
+        {
+            output = i;
+            break;
+        }
+    }
+    return output;
+}
