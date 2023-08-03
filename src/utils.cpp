@@ -1,6 +1,6 @@
 
-#include <iostream>
 #include <cstdlib>
+#include <iostream>
 #include <vector>
 #include <Rcpp.h>
 
@@ -17,7 +17,7 @@ int weightedRandom(std::vector<float> probabilities)
     }
     int randomInteger = Rcpp::sample(1000, 1)[0];
     // int randomInteger = rand() % 100;
-    for (int i = 0; i < probabilities.size(); i++)
+    for (int i = 0; i < int(probabilities.size()); i++)
     {
         if (randomInteger < transformedP[i])
         {

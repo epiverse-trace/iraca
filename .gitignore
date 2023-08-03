@@ -50,3 +50,11 @@ rsconnect/
 
 # macOS hidden files
 .DS_Store
+
+# vscode folder
+# .vscode/*
+# !.vscode/settings.json
+# !.vscode/tasks.json
+# !.vscode/launch.json
+# !.vscode/extensions.json
+# !.vscode/*.code-snippets

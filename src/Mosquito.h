@@ -39,6 +39,7 @@ class Mosquito{
         void updateBiteCount();
         void updateMosquito(int, int);
 
+        bool operator==(const Mosquito& other) const;
         Mosquito(int, int , int, int , int, float, int);
         Mosquito();
         ~Mosquito();

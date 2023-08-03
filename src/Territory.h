@@ -11,9 +11,7 @@
 #include <cmath>
 #include <Rcpp.h>
 #include "Human.h"
-#include "Human.cpp"
 #include "Mosquito.h"
-#include "Mosquito.cpp"
 
 class Territory
 {
@@ -50,12 +48,11 @@ public:
     void removeMosquito(Mosquito);
     void updateDeathRates(float, int);
     void updateBirthRate(float, int);
-    void moveMosquitoes();
     void moveHumans();
     void updateMosquitoes();
     void updateHumans(int);
     void interaction(int);
-    bool checkProximity(Human *, Mosquito *);
+    bool checkProximity(Human, Mosquito);
     void moveMosquitoes();
     void birthMosquitoes(float, float);
     void deathMosquitoes(float, float);

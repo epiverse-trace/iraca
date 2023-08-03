@@ -7,7 +7,7 @@
 
 using namespace std;
 
-Simulation::Simulation(int _days, Rcpp::DataFrame _territoriesData, Rcpp::DataFrame _temperatureData, Rcpp::DataFrame _movementData)
+Simulation::Simulation(int _days, std::vector<std::vector<float>> _territoriesData, std::vector<std::vector<float>> _temperatureData, std::vector<std::vector<float>> _movementData)
 {
     days = _days;
     territoriesData = _territoriesData;
@@ -17,30 +17,32 @@ Simulation::Simulation(int _days, Rcpp::DataFrame _territoriesData, Rcpp::DataFr
     std::list<Human> transitHumans;
 };
 
+Simulation::~Simulation(){
+    
+};
+
 void Simulation::initialize()
 {
     // data input
-    for (int ter = 0; ter < territoriesData.nrow(); ter++)
+    for (int ter = 0; ter < int(territoriesData.size()); ter++)
     {
         // Environment attributes from DANE database
-        float density = territoriesData[ter, 45];
-        int population = territoriesData[ter, 32];
-        float gas = territoriesData[ter, 29];
-        float sewage = territoriesData[ter, 30];
-        double birthRate = 0.04;
-        double deathRate = 0.04;
-        float area = territoriesData[ter, 1];
-        std::vector<float> ageProp = {territoriesData[ter, 35],
-                                      territoriesData[ter, 36],
-                                      territoriesData[ter, 37],
-                                      territoriesData[ter, 38],
-                                      territoriesData[ter, 39],
-                                      territoriesData[ter, 40],
-                                      territoriesData[ter, 41],
-                                      territoriesData[ter, 42],
-                                      territoriesData[ter, 43]};
-        float maleProp = territoriesData[ter, 33];
-        float highEdProp = territoriesData[ter, 44];
+        float density = territoriesData[ter][45];
+        int population = territoriesData[ter][32];
+        float gas = territoriesData[ter][29];
+        float sewage = territoriesData[ter][30];
+        float area = territoriesData[ter][1];
+        std::vector<float> ageProp = {territoriesData[ter][35],
+                                      territoriesData[ter][36],
+                                      territoriesData[ter][37],
+                                      territoriesData[ter][38],
+                                      territoriesData[ter][39],
+                                      territoriesData[ter][40],
+                                      territoriesData[ter][41],
+                                      territoriesData[ter][42],
+                                      territoriesData[ter][43]};
+        float maleProp = territoriesData[ter][33];
+        float highEdProp = territoriesData[ter][44];
         std::vector<float> movementPatterns = movementData[ter];
         // Territory creation
         Territory newTerritory(ter, area, density, population, gas, sewage, ageProp, maleProp, highEdProp, movementPatterns);
@@ -94,8 +96,8 @@ Rcpp::DataFrame Simulation::simulate(int _ndays)
             suceptible += localSIR[0]; infected += localSIR[1]; recovered += localSIR[2];
             tempTerritory->updateMosquitoes();
             tempTerritory->updateHumans(day);
-            tempTerritory->deathMosquitoes(temperatureData[0, day], temperatureData[1, day]);
-            tempTerritory->birthMosquitoes(temperatureData[0, day], temperatureData[1, day]);
+            tempTerritory->deathMosquitoes(temperatureData[0][day], temperatureData[1][day]);
+            tempTerritory->birthMosquitoes(temperatureData[0][day], temperatureData[1][day]);
             vectorS.push_back(suceptible);
             vectorI.push_back(infected);
             vectorR.push_back(recovered);

@@ -4,14 +4,7 @@
 #' @title Test fun
 #' @param n Integer for the last element in the sequence
 #' @export
-get_numbers <- function(n) {
-    .Call(`_iraca_get_numbers`, n)
-}
-
-#' @title run simulation
-#' @param n_days number of days to simulate
-#' @export
-run_simulation <- function(n_days = 365L) {
-    invisible(.Call(`_iraca_run_simulation`, n_days))
+get_numbers <- function() {
+    .Call(`_iraca_get_numbers`)
 }
 

@@ -19,24 +19,23 @@ class Simulation
 public:
     int getDays() {return days; };
     std::map<int, Territory> getTerritories() {return territories; };
-    Rcpp::DataFrame getTerritoriesData() {return territoriesData; };
-    Rcpp::DataFrame getTemperatureData() {temperatureData; };
-    Rcpp::DataFrame getMovementData() {return movementData; };
+    std::vector<std::vector<float>> getTerritoriesData() {return territoriesData; };
+    std::vector<std::vector<float>> getTemperatureData() {return temperatureData; };
+    std::vector<std::vector<float>> getMovementData() {return movementData; };
 
-    Simulation(int, Rcpp::DataFrame, Rcpp::DataFrame, Rcpp::DataFrame);
+    Simulation(int, std::vector<std::vector<float>>, std::vector<std::vector<float>>, std::vector<std::vector<float>>);
+    ~Simulation();
 
     void initialize();
     Rcpp::DataFrame simulate(int);
     void moveHumans();
 
-
-
 private:
     int days;
     std::map<int, Territory> territories;
-    Rcpp::DataFrame territoriesData;
-    Rcpp::DataFrame temperatureData;
-    Rcpp::DataFrame movementData;
+    std::vector<std::vector<float>> territoriesData;
+    std::vector<std::vector<float>> temperatureData;
+    std::vector<std::vector<float>> movementData;
     std::list<Human> transitHumans;
 
 };

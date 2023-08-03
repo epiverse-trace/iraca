@@ -14,6 +14,7 @@ using std::vector;
 std::random_device rd;
 std::mt19937 gen(static_cast<unsigned int>(time(nullptr)));
 
+// Initialization (different ages and probability to )
 Mosquito::Mosquito(int _id, int _age, int _positionX, int _positionY, int _currentTerritory, float _developmentRate, int _lifespan)
 {
     id = _id;
@@ -38,6 +39,11 @@ Mosquito::Mosquito(int _id, int _age, int _positionX, int _positionY, int _curre
 Mosquito::Mosquito(){};
 
 Mosquito::~Mosquito(){};
+
+bool Mosquito::operator == (const Mosquito& other) const {
+        // Define the comparison logic for the Human class
+        return id == other.id && currentTerritory == other.currentTerritory;
+}
 
 // Mosquito bite
 bool Mosquito::bite(float _biteProbability)

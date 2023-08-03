@@ -4,7 +4,7 @@
 \alias{get_numbers}
 \title{Test fun}
 \usage{
-get_numbers(n)
+get_numbers()
 }
 \arguments{
 \item{n}{Integer for the last element in the sequence}

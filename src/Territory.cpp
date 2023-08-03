@@ -38,18 +38,13 @@ void Territory::initializeHumans(float _infectedHumans = 0)
 {
     // Human possible attributes
     std::vector<int> possibleAges{0, 10, 20, 30, 40, 50, 60, 70, 80};
-    std::vector<string> possibleGenders{"M", "F"};
-    std::vector<int> possibleHighEd{true, false};
-    std::vector<int> possibleHighEd{1, 0};
-    std::vector<int> possibleSewage{1, 0};
-    std::vector<int> possibleGas{1, 0};
+    std::vector<std::string> possibleGenders{"M", "F"};
+    std::vector<bool> possibleHighEd{true, false};
     for (int hum = 0; hum < population; hum++)
     {
         int _age = possibleAges[weightedRandom(ageProp)];
         std::string _gender = possibleGenders[weightedRandom({maleProp, 1 - maleProp})];
         int _highEd = possibleHighEd[weightedRandom({highEdProp, 1 - highEdProp})];
-        int _sewageHuman = possibleSewage[weightedRandom({sewage, 1 - sewage})];
-        int _gasHuman = possibleGas[weightedRandom({gas, 1 - gas})];
         int _dailyEnv = weightedRandom(movementPatterns);
         // Human creation
         Human newHuman(hum, _age, _gender, _highEd, id, _dailyEnv, 0.65);
@@ -133,14 +128,14 @@ void Territory::updateDeathRates(float _temperature, int _days_ov_90)
     double temperature = (double)(_temperature);
     double days_ov_90 = (double)(_days_ov_90);
     deathRateAdults = (double)(0.8692 - 0.159 * temperature + 0.01116 * pow(temperature, 2) - 0.0003409 * pow(temperature, 3) + 0.000003804 * pow(temperature, 4) + 0.027 + 0.047 * days_ov_90);
-    deathRateAquatic = (double)(2.13 - 0.3797 * temperature + 0.02457 * pow(temperature, 2) - 0.0006778 * pow(temperature, 3) + 0.000006792 * pow(temperature, 4) + 0.026 + 0.03 * _days_ov_90);
+    deathRateAquatic = (double)(2.13 - 0.3797 * temperature + 0.02457 * pow(temperature, 2) - 0.0006778 * pow(temperature, 3) + 0.000006792 * pow(temperature, 4) + 0.026 + 0.03 * days_ov_90);
 };
 
 void Territory::updateBirthRate(float _temperature, int _days_ov_90)
 {
     double temperature = (double)(_temperature);
     double days_ov_90 = (double)(_days_ov_90);
-    birthRate = (double)(-0.000016 * pow(temperature, 3) + 0.00117114 * pow(temperature, 2) - 0.024371 * temperature + 0.186171 + 0.004 + 0.018 * _days_ov_90);
+    birthRate = (double)(-0.000016 * pow(temperature, 3) + 0.00117114 * pow(temperature, 2) - 0.024371 * temperature + 0.186171 + 0.004 + 0.018 * days_ov_90);
 };
 
 void Territory::moveMosquitoes()
@@ -230,11 +225,11 @@ void Territory::deathMosquitoes(float _temperature, float _maxTemperature)
 void Territory::updateMosquitoes()
 {
     int deaths = 0;
-    for (auto mosquito : mosquitoes)
+    for (auto &mosquito : mosquitoes)
     {
-        Mosquito *tempMosquito = &mosquito;
-        tempMosquito->updateAge();
-        if (!tempMosquito->isAlive())
+        //Mosquito *tempMosquito = &mosquito;
+        mosquito.updateAge();
+        if (!mosquito.isAlive())
         {
             deaths++;
             mosquitoes.remove(mosquito);
@@ -246,31 +241,29 @@ void Territory::interaction(int _day)
 {
     for (auto &human : humans)
     {
-        Human *tempHuman = &human;
         for (auto &mosquito : mosquitoes)
         {
-            Mosquito *tempMosquito = &mosquito;
             // Check if human and mosquito are in the same position
-            if (checkProximity(tempHuman, tempMosquito))
+            if (checkProximity(human, mosquito))
             {
                 // Try to bite
-                if (tempMosquito->bite(tempHuman->getBiteRate()))
+                if (mosquito.bite(human.getBiteRate()))
                 {
                     // Could or not be infectuous
-                    if (tempMosquito->isInfected())
+                    if (mosquito.isInfected())
                     {
                         // Mosquit to Human intection
-                        if (tempMosquito->infectingBite(0.11, _day))
+                        if (mosquito.infectingBite(0.11, _day))
                         {
-                            tempHuman->changeToInfected(_day);
+                            human.changeToInfected(_day);
                         }
                     }
-                    else if (tempHuman->getViremia())
+                    else if (human.getViremia())
                     {
                         // Human to Mosquito intection
-                        if (tempMosquito->infectiousBite(1))
+                        if (mosquito.infectiousBite(1))
                         {
-                            tempMosquito->changeToInfected(_day);
+                            mosquito.changeToInfected(_day);
                         }
                     }
                 }
@@ -279,10 +272,10 @@ void Territory::interaction(int _day)
     }
 };
 
-bool Territory::checkProximity(Human *human, Mosquito *mosquito)
+bool Territory::checkProximity(Human human, Mosquito mosquito)
 {
     bool sameLocation = false;
-    if (human->getPositionX() == mosquito->getPositionX() && human->getPositionY() == mosquito->getPositionY())
+    if (human.getPositionX() == mosquito.getPositionX() && human.getPositionY() == mosquito.getPositionY())
     {
         sameLocation = true;
     }

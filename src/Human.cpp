@@ -1,10 +1,5 @@
 // Human Class
 
-#include <Rcpp.h>
-#include <iostream>
-#include <cstdlib>
-#include <random>
-#include <ctime>
 #include "Human.h"
 
 Human::Human(int _id, int _age, std::string _gender, int _highEd, int _homeTerritory, int _dailyTerritory, float _biteRate)
@@ -26,9 +21,14 @@ Human::Human(int _id, int _age, std::string _gender, int _highEd, int _homeTerri
     dailyTerritory = _dailyTerritory;
     // Coordinates
     
-};
+}
 
-Human::Human(){};
+Human::Human(){}
+
+bool Human::operator == (const Human& other) const {
+        // Define the comparison logic for the Human class
+        return id == other.id && homeTerritory == other.homeTerritory && age == other.age && gender == other.gender;
+}
 
 // Change states
 void Human::changeToInfected(int _day)
@@ -38,12 +38,12 @@ void Human::changeToInfected(int _day)
         state = "I";
         setDayOfInfection(_day);
     }
-};
+}
 
 void Human::changeToRecovered()
 {
     state = "R";
-};
+}
 
 // Set infection day
 void Human::setDayOfInfection(int _day)
@@ -52,7 +52,7 @@ void Human::setDayOfInfection(int _day)
     {
         dayOfInfection = _day;
     }
-};
+}
 
 // Update viremic state (10 days of viremia aprox.)
 void Human::updateViremia(int _day)
@@ -72,25 +72,25 @@ void Human::updateViremia(int _day)
             viremia = false;
         }
     }
-};
+}
 
 // change territory when moving
 void Human::changeTerritory(int _territoryId)
 {
     currentTerritory = _territoryId;
-};
+}
 
 // Set coordinates for daily interaction (work/school)
 void Human::setDailyCoordinates(int _positionX, int _positionY)
 {
     dailyCoordinates = {_positionX, _positionY};
-};
+}
 
 // Set coordinates for home
 void Human::setHomeCoordinates(int _positionX, int _positionY)
 {
     homeCoordinates = {_positionX, _positionY};
-};
+}
 
 // Update position (constant if home or work/school)
 void Human::updatePosition(int _territoryId, int _positionX, int _positionY)
@@ -110,10 +110,10 @@ void Human::updatePosition(int _territoryId, int _positionX, int _positionY)
         positionX = _positionX;
         positionY = _positionY;
     }
-};
+}
 
 // Bite rate (can change if usses net intervention)
 void Human::updateBiteRate(float _biteRate)
 {
     biteRate = _biteRate;
-};
+}
