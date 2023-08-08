@@ -19,7 +19,7 @@ Calculate flow between locations according to population and distance
 between spatial structures
 }
 \examples{
-\dontun{
+\dontrun{
 flow_data(geo_data)
 }
 }

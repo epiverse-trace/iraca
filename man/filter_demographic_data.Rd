@@ -4,11 +4,14 @@
 \alias{filter_demographic_data}
 \title{Filter demographic data when imported directly from the MGN}
 \usage{
-filter_demographic_data(demographic_data)
+filter_demographic_data(demographic_data, divipola_code)
 }
 \arguments{
 \item{demographic_data}{sf object with demographic data directly imported
 from the MGN.}
+
+\item{divipola_code}{numeric code for the Divipola code of a specific
+municipality}
 }
 \value{
 sf object with filtered data, containing only the necessary columns

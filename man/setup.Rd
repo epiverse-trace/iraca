@@ -18,15 +18,18 @@ setup(
 }
 \arguments{
 \item{demographic_data}{sf object with the demographic data in the specified
-format. It's expected to be input by the user from the DANE's MGN (Marco
+format. It's expected to be input by the user from the DANE´s MGN (Marco
 Geoestadístico Nacional).}
 
-\item{temperature_data}{Dataframe with the temperature historic. It's
-expected to be input from the historic data at IDEAM's historic temperature}
+\item{temperature_data}{Data frame with the temperature historic. It's
+expected to be input from the historic data at IDEAM´s historic temperature}
 
-\item{movement_data}{Dataframe with the movement flow between territories.
-If not provided it's autimatically calculated from the demographic data using
+\item{movement_data}{Data frame with the movement flow between territories.
+If not provided it's automatically calculated from the demographic data using
 distance and population}
+
+\item{demographic_data_MGN}{Boolean stating if the data is directly
+downloaded from MGN and needs preparing and cleaning}
 
 \item{divipola_code}{Divipola code of the municipality to be simulated}
 
