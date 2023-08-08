@@ -8,9 +8,8 @@ get_numbers <- function() {
     .Call(`_iraca_get_numbers`)
 }
 
-#' @title run simulation
-NULL
-
+#' @title Run simulation
+#' @export
 main <- function() {
     .Call(`_iraca_main`)
 }
