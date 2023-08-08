@@ -10,16 +10,6 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
-// get_numbers
-double get_numbers();
-RcppExport SEXP _iraca_get_numbers() {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    rcpp_result_gen = Rcpp::wrap(get_numbers());
-    return rcpp_result_gen;
-END_RCPP
-}
 // main
 int main();
 RcppExport SEXP _iraca_main() {
@@ -32,7 +22,6 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_iraca_get_numbers", (DL_FUNC) &_iraca_get_numbers, 0},
     {"_iraca_main", (DL_FUNC) &_iraca_main, 0},
     {NULL, NULL, 0}
 };

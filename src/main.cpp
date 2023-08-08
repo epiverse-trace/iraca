@@ -41,8 +41,8 @@ std::vector<std::vector<float>> generalData(std::string fileName)
 };
 
 //' @title run simulation
- //' @export
- // [[Rcpp::export]]
+//' @export
+// [[Rcpp::export]]
 int main()
 {
     int nDays = 10;
