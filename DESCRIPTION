@@ -32,7 +32,9 @@ Language: en-US
 LinkingTo: 
     Rcpp
 Imports: 
-    Rcpp
+    Rcpp,
+    sf,
+    units
 Depends: 
     R (>= 2.10)
 LazyData: true
