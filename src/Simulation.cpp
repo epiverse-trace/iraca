@@ -3,15 +3,20 @@
 #include "Simulation.h"
 
 Simulation::Simulation(int _days,
-                       std::vector<std::vector<float>> _territoriesData,
-                       std::vector<std::vector<float>> _temperatureData,
-                       std::vector<std::vector<float>> _movementData) {
+                       const std::vector<std::vector<float>> &_territoriesData,
+                       const std::vector<std::vector<float>> &_temperatureData,
+                       const std::vector<std::vector<float>> &_movementData)
+    : territoriesData(_territoriesData),
+      temperatureData(_temperatureData),
+      movementData(_movementData),
+      territories({}),
+      transitHumans({}) {
   days = _days;
-  territoriesData = _territoriesData;
-  temperatureData = _temperatureData;
-  movementData = _movementData;
-  std::map<int, Territory> territories;
-  std::list<Human> transitHumans;
+  // territoriesData = _territoriesData;
+  // temperatureData = _temperatureData;
+  // movementData = _movementData;
+  // std::map<int, Territory> territories = {};
+  // std::list<Human> transitHumans = {};
 }
 
 Simulation::~Simulation() {}

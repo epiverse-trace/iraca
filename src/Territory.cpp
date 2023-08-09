@@ -6,15 +6,19 @@
 // std::mt19937 gen(static_cast<unsigned int>(time(nullptr)));
 
 Territory::Territory(int _id, float _area, float _density, int _population,
-                     float _gas, float _sewage, std::vector<float> _ageProp,
+                     float _gas, float _sewage, const std::vector<float>& _ageProp,
                      float _maleProp, float _highedProp,
-                     std::vector<float> _movementPatterns) {
+                     const std::vector<float>& _movementPatterns)
+    : ageProp(_ageProp),
+      humans({}),
+      mosquitoes({}),
+      movementPatterns(_movementPatterns) {
   id = _id;
   density = _density;
   population = _population;
   gas = _gas;
   sewage = _sewage;
-  ageProp = _ageProp;
+  // ageProp = _ageProp;
   maleProp = _maleProp;
   highEdProp = _highedProp;
   birthRate = 0.04;
@@ -25,10 +29,9 @@ Territory::Territory(int _id, float _area, float _density, int _population,
   // horizontal, 1.6 ratio between v and h, 10m blocks (can be changed)
   length = static_cast<int>(round(sqrt(_area / 1.6) * 1.6 / 22));
   // vertical
-  std::list<Human> humans;
-  std::list<Mosquito> mosquitoes;
-  std::list<int> intervenedAreas;
-  std::vector<float> movementPatterns = _movementPatterns;
+  // std::list<Human> humans;
+  // std::list<Mosquito> mosquitoes;
+  // std::vector<float> movementPatterns = _movementPatterns;
 }
 
 Territory::Territory() {}

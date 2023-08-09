@@ -29,8 +29,10 @@ class Simulation {
   }
   std::vector<std::vector<float>> getMovementData() { return movementData; }
 
-  Simulation(int, std::vector<std::vector<float>>,
-             std::vector<std::vector<float>>, std::vector<std::vector<float>>);
+  Simulation(int, const std::vector<std::vector<float>>&,
+             const std::vector<std::vector<float>>&,
+             const std::vector<std::vector<float>>&);
+
   ~Simulation();
 
   void initialize();

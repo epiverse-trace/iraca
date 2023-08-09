@@ -3,16 +3,17 @@
 #include "Human.h"
 
 Human::Human(int _id, int _age, std::string _gender, int _highEd,
-             int _homeTerritory, int _dailyTerritory, float _biteRate) {
+             int _homeTerritory, int _dailyTerritory, float _biteRate)
+    : state("S"), gender(_gender), homeCoordinates({}), dailyCoordinates({}) {
   id = _id;
-  state = "S";
+  // state = "S";
   age = _age;
-  gender = _gender;
+  // gender = _gender;
   highEd = _highEd;
   positionX = 0;
   positionY = 0;
-  homeCoordinates = {};
-  dailyCoordinates = {};
+  // homeCoordinates = {};
+  // dailyCoordinates = {};
   currentTerritory = _homeTerritory;
   dayOfInfection = 99999;
   viremia = false;

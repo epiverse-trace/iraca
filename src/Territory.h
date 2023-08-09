@@ -11,8 +11,8 @@
 #include <iostream>
 #include <list>
 #include <map>
-#include <vector>
 #include <string>
+#include <vector>
 
 #include "Human.h"
 #include "Mosquito.h"
@@ -41,8 +41,8 @@ class Territory {
   std::list<Mosquito> getMosquitoes() { return mosquitoes; }
   std::vector<float> getMovementPatterns() { return movementPatterns; }
 
-  Territory(int, float, float, int, float, float, std::vector<float>, float,
-            float, std::vector<float>);
+  Territory(int, float, float, int, float, float, const std::vector<float>&,
+            float, float, const std::vector<float>&);
   Territory();
 
   void initializeHumans(float);
@@ -82,7 +82,6 @@ class Territory {
   double birthRate;
   double deathRateAdults;
   double deathRateAquatic;
-  std::list<int> intervenedAreas;
   std::vector<float> movementPatterns;
 };
 
