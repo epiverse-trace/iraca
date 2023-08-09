@@ -3,39 +3,11 @@
 on:
   push:
     branches: [main, master]
-    paths:
-      - 'data/**'
-      - 'R/**'
-      - 'inst/**'
-      - 'man/**'
-      - 'src/**'
-      - 'tests/**'
-      - 'vignettes/**'
-      - 'DESCRIPTION'
-      - 'NAMESPACE'
-      - 'LICENSE'
-      - '.Rbuildignore'
-      - '.github/workflows/R-CMD-check.yaml'
   pull_request:
-    paths:
-      - 'data/**'
-      - 'R/**'
-      - 'inst/**'
-      - 'man/**'
-      - 'src/**'
-      - 'tests/**'
-      - 'vignettes/**'
-      - 'DESCRIPTION'
-      - 'NAMESPACE'
-      - 'LICENSE'
-      - '.Rbuildignore'
-      - '.github/workflows/R-CMD-check.yaml'
+    branches:
+     - "*"
 
 name: R-CMD-check
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
 
 jobs:
   R-CMD-check:
@@ -47,7 +19,7 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - {os: macOS-latest,   r: 'release'}
+          - {os: macos-latest,   r: 'release'}
           - {os: windows-latest, r: 'release'}
           - {os: ubuntu-latest,   r: 'devel', http-user-agent: 'release'}
           - {os: ubuntu-latest,   r: 'release'}
@@ -56,8 +28,6 @@ jobs:
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       R_KEEP_PKG_SOURCE: yes
-      # Exists since R 4.3.0 but `false` by default
-      _R_CHECK_LENGTH_COLON_: true
 
     steps:
       - uses: actions/checkout@v3
@@ -76,13 +46,5 @@ jobs:
           needs: check
 
       - uses: r-lib/actions/check-r-package@v2
-        id: rcmdcheck
         with:
           upload-snapshots: true
-
-      # fail-fast but only if rcmdcheck step fails
-      - name: Manual fail-fast
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        if: always() && steps.rcmdcheck.outcome == 'failure'
-        run: gh run cancel ${{ github.run_id }}
