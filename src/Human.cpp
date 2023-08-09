@@ -2,7 +2,7 @@
 
 #include "Human.h"
 
-Human::Human(int _id, int _age, std::string _gender, int _highEd,
+Human::Human(int _id, int _age, const std::string& _gender, int _highEd,
              int _homeTerritory, int _dailyTerritory, float _biteRate)
     : state("S"), gender(_gender), homeCoordinates({}), dailyCoordinates({}) {
   id = _id;

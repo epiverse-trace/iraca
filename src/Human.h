@@ -38,7 +38,7 @@ class Human {
   void updateBiteRate(float);
 
   bool operator==(const Human &other) const;
-  Human(int, int, std::string, int, int, int, float);
+  Human(int, int, const std::string&, int, int, int, float);
   Human();
 
  private:
