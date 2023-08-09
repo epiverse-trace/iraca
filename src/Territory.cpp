@@ -6,9 +6,10 @@
 // std::mt19937 gen(static_cast<unsigned int>(time(nullptr)));
 
 Territory::Territory(int _id, float _area, float _density, int _population,
-                     float _gas, float _sewage, const std::vector<float>& _ageProp,
-                     float _maleProp, float _highedProp,
-                     const std::vector<float>& _movementPatterns)
+                     float _gas, float _sewage,
+                     const std::vector<float> &_ageProp, float _maleProp,
+                     float _highedProp,
+                     const std::vector<float> &_movementPatterns)
     : ageProp(_ageProp),
       humans({}),
       mosquitoes({}),
