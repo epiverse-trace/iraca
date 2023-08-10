@@ -109,12 +109,12 @@ filter_demographic_data <- function(demographic_data, divipola_code) {
   filtered_data$age_60_69 <- filtered_data$age_60_69 / filtered_data$population
   filtered_data$age_70_79 <- filtered_data$age_70_79 / filtered_data$population
   filtered_data$age_80_up <- filtered_data$age_80_up / filtered_data$population
-  filtered_data$high_ed <- (filtered_data$sup_ed +
-    filtered_data$post_ed) / filtered_data$population
+  filtered_data$high_ed <- (filtered_data$sup_ed + filtered_data$post_ed)
+  filtered_data$high_ed <- filtered_data$high_ed / filtered_data$population
 
-  filtered_data <- filtered_data[, !names(filtered_data) %in%
-    c("sup_ed", "post_ed")]
+  to_delete <- c("sup_ed", "post_ed")
 
+  filtered_data <- filtered_data[, !names(filtered_data) %in% to_delete]
 
   return(filtered_data)
 }
