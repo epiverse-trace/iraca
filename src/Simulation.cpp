@@ -5,18 +5,19 @@
 Simulation::Simulation(int _days,
                        const std::vector<std::vector<float>> &_territoriesData,
                        const std::vector<std::vector<float>> &_temperatureData,
-                       const std::vector<std::vector<float>> &_movementData)
+                       const std::vector<std::vector<float>> &_movementData,
+                       int _incubationPeriod, int _infectionDuration,
+                       float _initInfectedHumans, float _initInfectedMosquitoes)
     : territoriesData(_territoriesData),
       temperatureData(_temperatureData),
       movementData(_movementData),
       territories({}),
       transitHumans({}) {
   days = _days;
-  // territoriesData = _territoriesData;
-  // temperatureData = _temperatureData;
-  // movementData = _movementData;
-  // std::map<int, Territory> territories = {};
-  // std::list<Human> transitHumans = {};
+  incubationPeriod = _incubationPeriod;
+  infectionDuration = _infectionDuration;
+  initInfectedHumans = _initInfectedHumans;
+  initInfectedMosquitoes = _initInfectedMosquitoes;
 }
 
 Simulation::~Simulation() {}
@@ -45,9 +46,11 @@ void Simulation::initialize() {
                            highEdProp, gas, sewage, movementPatterns);
 
     // Internal intialization
-    newTerritory.initializeHumans(0.005);
+    newTerritory.initializeHumans(initInfectedHumans, incubationPeriod,
+                                  infectionDuration);
     newTerritory.initializeMosquitoes(
-        static_cast<int>(population * 1.3 * 2.1 / 2.7), 0.01, false);
+        static_cast<int>(population * 1.3 * 2.1 / 2.7), initInfectedMosquitoes,
+        false);
 
     // Updating list
     territories.insert(std::pair<int, Territory>(ter, newTerritory));
@@ -55,12 +58,12 @@ void Simulation::initialize() {
 }
 
 // void Simulation::simulate(int _ndays)
-Rcpp::DataFrame Simulation::simulate(int _ndays) {
+Rcpp::DataFrame Simulation::simulate() {
   initialize();
   std::vector<int> vectorS = {};
   std::vector<int> vectorI = {};
   std::vector<int> vectorR = {};
-  for (int day = 0; day < _ndays; day++) {
+  for (int day = 0; day < days; day++) {
     int suceptible = 0;
     int infected = 0;
     int recovered = 0;
@@ -73,8 +76,6 @@ Rcpp::DataFrame Simulation::simulate(int _ndays) {
               static_cast<int>(R::runif(0, territories[dailyEnv].getLength()));
           int _positionY =
               static_cast<int>(R::runif(0, territories[dailyEnv].getWidth()));
-          // _positionX = distrHumanX(gen);
-          // _positionY = distrHumanY(gen);
           human.setDailyCoordinates(_positionX, _positionY);  // RETHINK THIS
         }
       }

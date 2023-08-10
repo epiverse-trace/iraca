@@ -20,6 +20,8 @@ class Human {
   int getPositionY() { return positionY; }
   int getHomeTerritory() { return homeTerritory; }
   int getDailyTerritory() { return dailyTerritory; }
+  int getIncubationPeriod() { return incubationPeriod; }
+  int getInfectionDuration() { return infectionDuration; }
   int getDayOfInfection() { return dayOfInfection; }
   bool getViremia() { return viremia; }
   float getBiteRate() { return biteRate; }
@@ -38,7 +40,7 @@ class Human {
   void updateBiteRate(float);
 
   bool operator==(const Human &other) const;
-  Human(int, int, const std::string&, int, int, int, float);
+  Human(int, int, const std::string &, int, int, int, int, int, float);
   Human();
 
  private:
@@ -52,6 +54,8 @@ class Human {
   int positionY;
   int homeTerritory;
   int dailyTerritory;
+  int incubationPeriod;
+  int infectionDuration;
   int dayOfInfection;
   bool viremia;
   float biteRate;
