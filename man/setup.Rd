@@ -11,7 +11,8 @@ setup(
   demographic_data_MGN = TRUE,
   divipola_code = NULL,
   disease = "dengue",
-  incubation_period = 14,
+  incubation_period = 4,
+  infection_duration = 14,
   init_infected_humans = 0.005,
   init_infected_mosquito = 0.03
 )
@@ -37,6 +38,8 @@ downloaded from MGN and needs preparing and cleaning}
 "zika" or "chikungunya".}
 
 \item{incubation_period}{Incubation period of the disease}
+
+\item{infection_duration}{Infection duration of the disease}
 
 \item{init_infected_humans}{Percentage of initially infected humans}
 
