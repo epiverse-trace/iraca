@@ -24,4 +24,9 @@ Language: en-US
 LinkingTo: 
     Rcpp
 Imports: 
-    Rcpp
+    Rcpp,
+    sf,
+    units
+Depends: 
+    R (>= 3.3.0)
+LazyData: true
