@@ -42,10 +42,10 @@ class Simulation {
 
  private:
   int days;
-  std::map<int, Territory> territories;
   std::vector<std::vector<float>> territoriesData;
   std::vector<std::vector<float>> temperatureData;
   std::vector<std::vector<float>> movementData;
+  std::map<int, Territory> territories;
   std::list<Human> transitHumans;
 };
 

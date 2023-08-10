@@ -6,29 +6,28 @@
 // std::mt19937 gen(static_cast<unsigned int>(time(nullptr)));
 
 Territory::Territory(int _id, float _area, float _density, int _population,
-                     float _gas, float _sewage,
                      const std::vector<float> &_ageProp, float _maleProp,
-                     float _highedProp,
+                     float _highedProp, float _gas, float _sewage,
                      const std::vector<float> &_movementPatterns)
-    : ageProp(_ageProp),
-      humans({}),
+    : humans({}),
       mosquitoes({}),
+      ageProp(_ageProp),
       movementPatterns(_movementPatterns) {
   id = _id;
-  density = _density;
-  population = _population;
-  gas = _gas;
-  sewage = _sewage;
-  // ageProp = _ageProp;
-  maleProp = _maleProp;
-  highEdProp = _highedProp;
-  birthRate = 0.04;
-  deathRateAdults = 0.04;
-  deathRateAquatic = 0.04;
   area = _area;
   width = static_cast<int>(round(sqrt(_area / 1.6) / 22));
   // horizontal, 1.6 ratio between v and h, 10m blocks (can be changed)
   length = static_cast<int>(round(sqrt(_area / 1.6) * 1.6 / 22));
+  density = _density;
+  population = _population;
+  // ageProp = _ageProp;
+  maleProp = _maleProp;
+  gas = _gas;
+  sewage = _sewage;
+  highEdProp = _highedProp;
+  birthRate = 0.04;
+  deathRateAdults = 0.04;
+  deathRateAquatic = 0.04;
   // vertical
   // std::list<Human> humans;
   // std::list<Mosquito> mosquitoes;

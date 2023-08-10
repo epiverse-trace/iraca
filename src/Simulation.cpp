@@ -41,8 +41,8 @@ void Simulation::initialize() {
     float highEdProp = territoriesData[ter][44];
     std::vector<float> movementPatterns = movementData[ter];
     // Territory creation
-    Territory newTerritory(ter, area, density, population, gas, sewage, ageProp,
-                           maleProp, highEdProp, movementPatterns);
+    Territory newTerritory(ter, area, density, population, ageProp, maleProp,
+                           highEdProp, gas, sewage, movementPatterns);
 
     // Internal intialization
     newTerritory.initializeHumans(0.005);

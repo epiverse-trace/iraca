@@ -41,7 +41,7 @@ class Territory {
   std::list<Mosquito> getMosquitoes() { return mosquitoes; }
   std::vector<float> getMovementPatterns() { return movementPatterns; }
 
-  Territory(int, float, float, int, float, float, const std::vector<float>&,
+  Territory(int, float, float, int, const std::vector<float>&, float, float,
             float, float, const std::vector<float>&);
   Territory();
 
