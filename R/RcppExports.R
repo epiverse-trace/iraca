@@ -4,6 +4,5 @@
 #' @title run simulation
 #' @export
 main <- function() {
-    .Call(`_iraca_main`)
+  .Call(`_iraca_main`)
 }
-
