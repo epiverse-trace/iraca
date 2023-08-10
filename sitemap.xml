@@ -16,9 +16,18 @@
     <loc>/index.html</loc>
   </url>
   <url>
-    <loc>/reference/get_numbers.html</loc>
+    <loc>/reference/filter_demographic_data.html</loc>
+  </url>
+  <url>
+    <loc>/reference/flow_data.html</loc>
   </url>
   <url>
     <loc>/reference/index.html</loc>
+  </url>
+  <url>
+    <loc>/reference/main.html</loc>
+  </url>
+  <url>
+    <loc>/reference/setup.html</loc>
   </url>
 </urlset>
