@@ -45,7 +45,7 @@ class Territory {
             float, float, const std::vector<float>&);
   Territory();
 
-  void initializeHumans(float);
+  void initializeHumans(float, float, float);
   void initializeMosquitoes(int, float, bool);
   void addHuman(Human);
   void removeHuman(Human);

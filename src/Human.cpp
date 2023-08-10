@@ -3,29 +3,27 @@
 #include "Human.h"
 
 Human::Human(int _id, int _age, const std::string& _gender, int _highEd,
-             int _homeTerritory, int _dailyTerritory, float _biteRate)
+             int _incubationPeriod, int _infectionDuration, int _homeTerritory,
+             int _dailyTerritory, float _biteRate)
     : state("S"), gender(_gender), homeCoordinates({}), dailyCoordinates({}) {
   id = _id;
-  // state = "S";
   age = _age;
-  // gender = _gender;
   highEd = _highEd;
   positionX = 0;
   positionY = 0;
-  // homeCoordinates = {};
-  // dailyCoordinates = {};
   currentTerritory = _homeTerritory;
+  incubationPeriod = _incubationPeriod;
+  infectionDuration = _infectionDuration;
   dayOfInfection = 99999;
   viremia = false;
   biteRate = _biteRate;
   homeTerritory = _homeTerritory;
   dailyTerritory = _dailyTerritory;
-  // Coordinates
 }
 
 Human::Human() {}
 
-bool Human::operator==(const Human &other) const {
+bool Human::operator==(const Human& other) const {
   // Define the comparison logic for the Human class
   return id == other.id && homeTerritory == other.homeTerritory &&
          age == other.age && gender == other.gender;

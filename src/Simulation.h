@@ -28,15 +28,19 @@ class Simulation {
     return temperatureData;
   }
   std::vector<std::vector<float>> getMovementData() { return movementData; }
+  int getIncubationPeriod() { return incubationPeriod; }
+  int fetInfectionDuration() { return infectionDuration; }
+  float getInitInfectedHumans() { return initInfectedHumans; }
+  float getInitInfectedMosquitoes() { return initInfectedMosquitoes; }
 
   Simulation(int, const std::vector<std::vector<float>>&,
              const std::vector<std::vector<float>>&,
-             const std::vector<std::vector<float>>&);
+             const std::vector<std::vector<float>>&, int, int, float, float);
 
   ~Simulation();
 
   void initialize();
-  Rcpp::DataFrame simulate(int);
+  Rcpp::DataFrame simulate();
   // void simulate(int);
   void moveHumans();
 
@@ -47,6 +51,10 @@ class Simulation {
   std::vector<std::vector<float>> movementData;
   std::map<int, Territory> territories;
   std::list<Human> transitHumans;
+  int incubationPeriod;
+  int infectionDuration;
+  float initInfectedHumans;
+  float initInfectedMosquitoes;
 };
 
 #endif  // SRC_SIMULATION_H_

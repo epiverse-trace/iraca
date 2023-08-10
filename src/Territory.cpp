@@ -20,7 +20,6 @@ Territory::Territory(int _id, float _area, float _density, int _population,
   length = static_cast<int>(round(sqrt(_area / 1.6) * 1.6 / 22));
   density = _density;
   population = _population;
-  // ageProp = _ageProp;
   maleProp = _maleProp;
   gas = _gas;
   sewage = _sewage;
@@ -28,16 +27,14 @@ Territory::Territory(int _id, float _area, float _density, int _population,
   birthRate = 0.04;
   deathRateAdults = 0.04;
   deathRateAquatic = 0.04;
-  // vertical
-  // std::list<Human> humans;
-  // std::list<Mosquito> mosquitoes;
-  // std::vector<float> movementPatterns = _movementPatterns;
 }
 
 Territory::Territory() {}
 
 // Initialize humans and mosquitoes
-void Territory::initializeHumans(float _infectedHumans = 0) {
+void Territory::initializeHumans(float _infectedHumans = 0,
+                                 float _incubationPeriod = 4,
+                                 float _infectionDuration = 14) {
   // Human possible attributes
   std::vector<int> possibleAges{0, 10, 20, 30, 40, 50, 60, 70, 80};
   std::vector<std::string> possibleGenders{"M", "F"};
@@ -49,7 +46,8 @@ void Territory::initializeHumans(float _infectedHumans = 0) {
     int _highEd = possibleHighEd[weightedRandom({highEdProp, 1 - highEdProp})];
     int _dailyEnv = weightedRandom(movementPatterns);
     // Human creation
-    Human newHuman(hum, _age, _gender, _highEd, id, _dailyEnv, 0.65);
+    Human newHuman(hum, _age, _gender, _highEd, _incubationPeriod,
+                   _infectionDuration, id, _dailyEnv, 0.65);
 
     // random position in grid
     int _positionX = static_cast<int>(R::runif(0, length));
