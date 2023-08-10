@@ -71,21 +71,21 @@ setup <- function(demographic_data,
 #' }
 filter_demographic_data <- function(demographic_data, divipola_code) {
   filtered_data <- demographic_data[as.numeric(demographic_data$MPIO_CDPMP) ==
-                                      divipola_code & as.numeric(
-                                        demographic_data$SECR_CCDGO
-                                        ) == 0, c(
-                                          "SETU_CCDGO", "AREA", "LATITUD",
-                                          "LONGITUD", "STVIVIENDA",
-                                          "STP19_ALC1", "STP19_GAS1",
-                                          "STP27_PERS", "STP32_1_SE",
-                                          "STP32_2_SE", "STP34_1_ED",
-                                          "STP34_2_ED", "STP34_3_ED",
-                                          "STP34_4_ED", "STP34_5_ED",
-                                          "STP34_6_ED", "STP34_7_ED",
-                                          "STP34_8_ED", "STP34_9_ED",
-                                          "STP51_SUPE", "STP51_POST",
-                                          "geometry"
-                                          )]
+    divipola_code & as.numeric(
+    demographic_data$SECR_CCDGO
+  ) == 0, c(
+    "SETU_CCDGO", "AREA", "LATITUD",
+    "LONGITUD", "STVIVIENDA",
+    "STP19_ALC1", "STP19_GAS1",
+    "STP27_PERS", "STP32_1_SE",
+    "STP32_2_SE", "STP34_1_ED",
+    "STP34_2_ED", "STP34_3_ED",
+    "STP34_4_ED", "STP34_5_ED",
+    "STP34_6_ED", "STP34_7_ED",
+    "STP34_8_ED", "STP34_9_ED",
+    "STP51_SUPE", "STP51_POST",
+    "geometry"
+  )]
 
   colnames(filtered_data) <- c(
     "territory", "area", "latitude", "longitude", "houses", "sewage", "gas",
@@ -110,10 +110,10 @@ filter_demographic_data <- function(demographic_data, divipola_code) {
   filtered_data$age_70_79 <- filtered_data$age_70_79 / filtered_data$population
   filtered_data$age_80_up <- filtered_data$age_80_up / filtered_data$population
   filtered_data$high_ed <- (filtered_data$sup_ed +
-                              filtered_data$post_ed) / filtered_data$population
+    filtered_data$post_ed) / filtered_data$population
 
   filtered_data <- filtered_data[, !names(filtered_data) %in%
-                                   c("sup_ed", "post_ed")]
+    c("sup_ed", "post_ed")]
 
 
   return(filtered_data)
