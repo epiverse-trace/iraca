@@ -7,17 +7,18 @@
 #' expected to be input from the historic data at IDEAM´s historic temperature
 #' @param movement_data Data frame with the movement flow between territories.
 #' If not provided it's automatically calculated from the demographic data using
-#' distance and population
+#' distance and population.
 #' @param demographic_data_MGN Boolean stating if the data is directly
-#' downloaded from MGN and needs preparing and cleaning
+#' downloaded from MGN and needs preparing and cleaning.
 #' @param divipola_code Divipola code of the municipality to be simulated
 #' @param disease Character string for the disease name. Can be either "dengue",
 #' "zika" or "chikungunya".
-#' @param incubation_period Incubation period of the disease
-#' @param init_infected_humans Percentage of initially infected humans
-#' @param init_infected_mosquito Percentage of initially infected mosquitoes
+#' @param incubation_period Incubation period of the disease.
+#' @param infection_duration Infection duration of the disease.
+#' @param init_infected_humans Percentage of initially infected humans.
+#' @param init_infected_mosquitoes Percentage of initially infected mosquitoes.
 #'
-#' @return S3 ABM_model object with the saved initial parameters
+#' @return S3 ABM_model object with the saved initial parameters.
 #'
 #' @examples
 #' \dontrun{
@@ -30,9 +31,10 @@ setup <- function(demographic_data,
                   demographic_data_MGN = TRUE,
                   divipola_code = NULL,
                   disease = "dengue",
-                  incubation_period = 14,
+                  incubation_period = 4,
+                  infection_duration = 14,
                   init_infected_humans = 0.005,
-                  init_infected_mosquito = 0.03) {
+                  init_infected_mosquitoes = 0.03) {
   if (demographic_data_MGN && !is.null(divipola_code)) {
     demographic_data <- filter_demographic_data(demographic_data)
   }
@@ -48,8 +50,9 @@ setup <- function(demographic_data,
     divipola_code = divipola_code,
     disease = disease,
     incubation_period = incubation_period,
+    infection_duration = infection_duration,
     init_infected_humans = init_infected_humans,
-    init_infected_mosquito = init_infected_mosquito
+    init_infected_mosquito = init_infected_mosquitoes
   )
   class(model) <- "ABM_model"
 
