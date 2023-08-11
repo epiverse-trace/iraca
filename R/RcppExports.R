@@ -2,7 +2,17 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 #' @title run simulation
+#' @param nDays Number of days to simulate.
+#' @param demographicData Data frame containing the Demographic data for the
+#' synthetic population.
+#' @param temperatureData Data frame with the temperature historic.
+#' @param movementData Data frame with the movement flow between territories.
+#' @param incubationPeriod Incubation period of the disease.
+#' @param infectionDuration Infection duration of the disease.
+#' @param initInfectedHumans Percentage of initially infected humans.
+#' @param initInfectedMosquitoes Percentage of initially infected mosquitoes.
 #' @export
-main <- function() {
-  .Call(`_iraca_main`)
+simulate <- function(nDays, demographicData, temperatureData, movementData, incubationPeriod, infectionDuration, initInfectedHumans, initInfectedMosquitoes) {
+    .Call(`_iraca_simulate`, nDays, demographicData, temperatureData, movementData, incubationPeriod, infectionDuration, initInfectedHumans, initInfectedMosquitoes)
 }
+
