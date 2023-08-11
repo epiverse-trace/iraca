@@ -11,7 +11,7 @@
 #' }
 #' @export
 simulation <- function(ABM_model, time) {
-  SIR_simulation <- main(
+  SIR_simulation <- simulate(
     time,
     ABM_model$demographic_data,
     ABM_model$temperature_data,
