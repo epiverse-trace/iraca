@@ -14,7 +14,7 @@ setup(
   incubation_period = 4,
   infection_duration = 14,
   init_infected_humans = 0.005,
-  init_infected_mosquito = 0.03
+  init_infected_mosquitoes = 0.03
 )
 }
 \arguments{
@@ -27,26 +27,26 @@ expected to be input from the historic data at IDEAM´s historic temperature}
 
 \item{movement_data}{Data frame with the movement flow between territories.
 If not provided it's automatically calculated from the demographic data using
-distance and population}
+distance and population.}
 
 \item{demographic_data_MGN}{Boolean stating if the data is directly
-downloaded from MGN and needs preparing and cleaning}
+downloaded from MGN and needs preparing and cleaning.}
 
 \item{divipola_code}{Divipola code of the municipality to be simulated}
 
 \item{disease}{Character string for the disease name. Can be either "dengue",
 "zika" or "chikungunya".}
 
-\item{incubation_period}{Incubation period of the disease}
+\item{incubation_period}{Incubation period of the disease.}
 
-\item{infection_duration}{Infection duration of the disease}
+\item{infection_duration}{Infection duration of the disease.}
 
-\item{init_infected_humans}{Percentage of initially infected humans}
+\item{init_infected_humans}{Percentage of initially infected humans.}
 
-\item{init_infected_mosquito}{Percentage of initially infected mosquitoes}
+\item{init_infected_mosquitoes}{Percentage of initially infected mosquitoes.}
 }
 \value{
-S3 ABM_model object with the saved initial parameters
+S3 ABM_model object with the saved initial parameters.
 }
 \description{
 Setup ABM data and basic parameters
