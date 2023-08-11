@@ -57,7 +57,6 @@ void Simulation::initialize() {
   }
 }
 
-// void Simulation::simulate(int _ndays)
 Rcpp::DataFrame Simulation::simulate() {
   initialize();
   std::vector<int> vectorS = {};
