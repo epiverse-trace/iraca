@@ -24,6 +24,7 @@ Language: en-US
 LinkingTo: 
     Rcpp
 Imports: 
+    checkmate,
     Rcpp,
     sf,
     units

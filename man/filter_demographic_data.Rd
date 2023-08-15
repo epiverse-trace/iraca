@@ -4,7 +4,7 @@
 \alias{filter_demographic_data}
 \title{Filter demographic data when imported directly from the MGN}
 \usage{
-filter_demographic_data(demographic_data, divipola_code)
+filter_demographic_data(demographic_data, divipola_code = NULL)
 }
 \arguments{
 \item{demographic_data}{sf object with demographic data directly imported

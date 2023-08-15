@@ -30,7 +30,7 @@ If not provided it's automatically calculated from the demographic data using
 distance and population.}
 
 \item{demographic_data_MGN}{Boolean stating if the data is directly
-downloaded from MGN and needs preparing and cleaning.}
+downloaded from MGN and needs filtering and cleaning.}
 
 \item{divipola_code}{Divipola code of the municipality to be simulated}
 
