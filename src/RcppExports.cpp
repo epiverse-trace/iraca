@@ -12,19 +12,19 @@ Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
 // simulate
-Rcpp::DataFrame simulate(int nDays, std::vector<std::vector<float>> demographicData, std::vector<std::vector<float>> temperatureData, std::vector<std::vector<float>> movementData, int incubationPeriod, int infectionDuration, float initInfectedHumans, float initInfectedMosquitoes);
+Rcpp::DataFrame simulate(int nDays, Rcpp::DataFrame demographicData, Rcpp::DataFrame temperatureData, Rcpp::DataFrame movementData, int incubationPeriod, int infectionDuration, double initInfectedHumans, double initInfectedMosquitoes);
 RcppExport SEXP _iraca_simulate(SEXP nDaysSEXP, SEXP demographicDataSEXP, SEXP temperatureDataSEXP, SEXP movementDataSEXP, SEXP incubationPeriodSEXP, SEXP infectionDurationSEXP, SEXP initInfectedHumansSEXP, SEXP initInfectedMosquitoesSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< int >::type nDays(nDaysSEXP);
-    Rcpp::traits::input_parameter< std::vector<std::vector<float>> >::type demographicData(demographicDataSEXP);
-    Rcpp::traits::input_parameter< std::vector<std::vector<float>> >::type temperatureData(temperatureDataSEXP);
-    Rcpp::traits::input_parameter< std::vector<std::vector<float>> >::type movementData(movementDataSEXP);
+    Rcpp::traits::input_parameter< Rcpp::DataFrame >::type demographicData(demographicDataSEXP);
+    Rcpp::traits::input_parameter< Rcpp::DataFrame >::type temperatureData(temperatureDataSEXP);
+    Rcpp::traits::input_parameter< Rcpp::DataFrame >::type movementData(movementDataSEXP);
     Rcpp::traits::input_parameter< int >::type incubationPeriod(incubationPeriodSEXP);
     Rcpp::traits::input_parameter< int >::type infectionDuration(infectionDurationSEXP);
-    Rcpp::traits::input_parameter< float >::type initInfectedHumans(initInfectedHumansSEXP);
-    Rcpp::traits::input_parameter< float >::type initInfectedMosquitoes(initInfectedMosquitoesSEXP);
+    Rcpp::traits::input_parameter< double >::type initInfectedHumans(initInfectedHumansSEXP);
+    Rcpp::traits::input_parameter< double >::type initInfectedMosquitoes(initInfectedMosquitoesSEXP);
     rcpp_result_gen = Rcpp::wrap(simulate(nDays, demographicData, temperatureData, movementData, incubationPeriod, infectionDuration, initInfectedHumans, initInfectedMosquitoes));
     return rcpp_result_gen;
 END_RCPP

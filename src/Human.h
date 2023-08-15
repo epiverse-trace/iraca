@@ -24,7 +24,7 @@ class Human {
   int getInfectionDuration() { return infectionDuration; }
   int getDayOfInfection() { return dayOfInfection; }
   bool getViremia() { return viremia; }
-  float getBiteRate() { return biteRate; }
+  double getBiteRate() { return biteRate; }
 
   std::vector<int> getHomeCoordinates() { return homeCoordinates; }
   std::vector<int> getDailyCoordinates() { return dailyCoordinates; }
@@ -37,10 +37,10 @@ class Human {
   void setDailyCoordinates(int, int);
   void setHomeCoordinates(int, int);
   void updatePosition(int, int, int);
-  void updateBiteRate(float);
+  void updateBiteRate(double);
 
   bool operator==(const Human &other) const;
-  Human(int, int, const std::string &, int, int, int, int, int, float);
+  Human(int, int, const std::string &, int, int, int, int, int, double);
   Human();
 
  private:
@@ -58,7 +58,7 @@ class Human {
   int infectionDuration;
   int dayOfInfection;
   bool viremia;
-  float biteRate;
+  double biteRate;
   std::vector<int> homeCoordinates;
   std::vector<int> dailyCoordinates;
 };

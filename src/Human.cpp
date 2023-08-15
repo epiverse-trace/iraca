@@ -4,7 +4,7 @@
 
 Human::Human(int _id, int _age, const std::string& _gender, int _highEd,
              int _incubationPeriod, int _infectionDuration, int _homeTerritory,
-             int _dailyTerritory, float _biteRate)
+             int _dailyTerritory, double _biteRate)
     : state("S"), gender(_gender), homeCoordinates({}), dailyCoordinates({}) {
   id = _id;
   age = _age;
@@ -92,4 +92,4 @@ void Human::updatePosition(int _territoryId, int _positionX, int _positionY) {
 }
 
 // Bite rate (can change if usses net intervention)
-void Human::updateBiteRate(float _biteRate) { biteRate = _biteRate; }
+void Human::updateBiteRate(double _biteRate) { biteRate = _biteRate; }

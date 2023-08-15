@@ -3,11 +3,12 @@
 #include "Simulation.h"
 
 Simulation::Simulation(int _days,
-                       const std::vector<std::vector<float>> &_territoriesData,
-                       const std::vector<std::vector<float>> &_temperatureData,
-                       const std::vector<std::vector<float>> &_movementData,
+                       const std::vector<std::vector<double>> &_territoriesData,
+                       const std::vector<std::vector<double>> &_temperatureData,
+                       const std::vector<std::vector<double>> &_movementData,
                        int _incubationPeriod, int _infectionDuration,
-                       float _initInfectedHumans, float _initInfectedMosquitoes)
+                       double _initInfectedHumans,
+                       double _initInfectedMosquitoes)
     : territoriesData(_territoriesData),
       temperatureData(_temperatureData),
       movementData(_movementData),
@@ -24,27 +25,27 @@ Simulation::~Simulation() {}
 
 void Simulation::initialize() {
   // data input
-  int nTerritories = territoriesData.size();
+  int nTerritories = territoriesData[0].size();
   for (int ter = 0; ter < nTerritories - 1; ter++) {
+    Rcpp::Rcout << "teritory " << std::to_string(ter) << std::endl;
     // Environment attributes from DANE database
-    float density = territoriesData[ter][45];
-    int population = territoriesData[ter][32];
-    float gas = territoriesData[ter][29];
-    float sewage = territoriesData[ter][30];
-    float area = territoriesData[ter][1];
-    std::vector<float> ageProp = {
-        territoriesData[ter][35], territoriesData[ter][36],
-        territoriesData[ter][37], territoriesData[ter][38],
-        territoriesData[ter][39], territoriesData[ter][40],
-        territoriesData[ter][41], territoriesData[ter][42],
-        territoriesData[ter][43]};
-    float maleProp = territoriesData[ter][33];
-    float highEdProp = territoriesData[ter][44];
-    std::vector<float> movementPatterns = movementData[ter];
+    double density = territoriesData[19][ter];
+    int population = territoriesData[7][ter];
+    double gas = territoriesData[6][ter];
+    double sewage = territoriesData[5][ter];
+    double area = territoriesData[1][ter];
+    std::vector<double> ageProp = {
+        territoriesData[10][ter], territoriesData[11][ter],
+        territoriesData[12][ter], territoriesData[13][ter],
+        territoriesData[14][ter], territoriesData[15][ter],
+        territoriesData[16][ter], territoriesData[17][ter],
+        territoriesData[18][ter]};
+    double maleProp = territoriesData[8][ter];
+    double highEdProp = territoriesData[20][ter];
+    std::vector<double> movementPatterns = movementData[ter];
     // Territory creation
     Territory newTerritory(ter, area, density, population, ageProp, maleProp,
                            highEdProp, gas, sewage, movementPatterns);
-
     // Internal intialization
     newTerritory.initializeHumans(initInfectedHumans, incubationPeriod,
                                   infectionDuration);
@@ -63,6 +64,7 @@ Rcpp::DataFrame Simulation::simulate() {
   std::vector<int> vectorI = {};
   std::vector<int> vectorR = {};
   for (int day = 0; day < days; day++) {
+    Rcpp::Rcout << "Day " << std::to_string(day) << std::endl;
     int suceptible = 0;
     int infected = 0;
     int recovered = 0;
@@ -107,15 +109,16 @@ Rcpp::DataFrame Simulation::simulate() {
       infected += localSIR[1];
       recovered += localSIR[2];
       tempTerritory->updateMosquitoes();
+      Rcpp::Rcout << "Done with day " << std::to_string(day) << std::endl;
       tempTerritory->updateHumans(day);
       tempTerritory->deathMosquitoes(temperatureData[0][day],
                                      temperatureData[1][day]);
       tempTerritory->birthMosquitoes(temperatureData[0][day],
                                      temperatureData[1][day]);
-      vectorS.push_back(suceptible);
-      vectorI.push_back(infected);
-      vectorR.push_back(recovered);
     }
+    vectorS.push_back(suceptible);
+    vectorI.push_back(infected);
+    vectorR.push_back(recovered);
   }
   Rcpp::DataFrame SIRM = Rcpp::DataFrame::create(Rcpp::Named("S") = vectorS,
                                                  Rcpp::Named("I") = vectorI,

@@ -4,7 +4,7 @@
 
 // Initialization (different ages and probability to )
 Mosquito::Mosquito(int _id, int _age, int _positionX, int _positionY,
-                   int _currentTerritory, float _developmentRate,
+                   int _currentTerritory, double _developmentRate,
                    int _lifespan) {
   id = _id;
   infected = false;
@@ -36,7 +36,7 @@ bool Mosquito::operator==(const Mosquito& other) const {
 
 // Mosquito bite
 // if(0.2 <= _biteProbability) on inner if
-bool Mosquito::bite(float _biteProbability) {
+bool Mosquito::bite(double _biteProbability) {
   bool output = false;
   if (adult) {
     if (biteCount <= neededBites && bitesToday <= maxBitesPerDay) {
@@ -51,7 +51,7 @@ bool Mosquito::bite(float _biteProbability) {
 }
 
 // Is bite infecting? (Human to Mosquito)
-bool Mosquito::infectingBite(float _infectingProb, int _day) {
+bool Mosquito::infectingBite(double _infectingProb, int _day) {
   bool output = false;
   if (dayOfInfection != 0 && _day - dayOfInfection > 5) {
     output = (R::runif(0, 1) <= _infectingProb);
@@ -60,7 +60,7 @@ bool Mosquito::infectingBite(float _infectingProb, int _day) {
 }
 
 // Is bite infectious? (Mosquito to Human)
-bool Mosquito::infectiousBite(float _infectiousProb) {
+bool Mosquito::infectiousBite(double _infectiousProb) {
   return (R::runif(0, 1) <= _infectiousProb);
 }
 
