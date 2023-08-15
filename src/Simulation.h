@@ -21,21 +21,21 @@ class Simulation {
  public:
   int getDays() { return days; }
   std::map<int, Territory> getTerritories() { return territories; }
-  std::vector<std::vector<float>> getTerritoriesData() {
+  std::vector<std::vector<double>> getTerritoriesData() {
     return territoriesData;
   }
-  std::vector<std::vector<float>> getTemperatureData() {
+  std::vector<std::vector<double>> getTemperatureData() {
     return temperatureData;
   }
-  std::vector<std::vector<float>> getMovementData() { return movementData; }
+  std::vector<std::vector<double>> getMovementData() { return movementData; }
   int getIncubationPeriod() { return incubationPeriod; }
   int fetInfectionDuration() { return infectionDuration; }
-  float getInitInfectedHumans() { return initInfectedHumans; }
-  float getInitInfectedMosquitoes() { return initInfectedMosquitoes; }
+  double getInitInfectedHumans() { return initInfectedHumans; }
+  double getInitInfectedMosquitoes() { return initInfectedMosquitoes; }
 
-  Simulation(int, const std::vector<std::vector<float>>&,
-             const std::vector<std::vector<float>>&,
-             const std::vector<std::vector<float>>&, int, int, float, float);
+  Simulation(int, const std::vector<std::vector<double>>&,
+             const std::vector<std::vector<double>>&,
+             const std::vector<std::vector<double>>&, int, int, double, double);
 
   ~Simulation();
 
@@ -46,15 +46,15 @@ class Simulation {
 
  private:
   int days;
-  std::vector<std::vector<float>> territoriesData;
-  std::vector<std::vector<float>> temperatureData;
-  std::vector<std::vector<float>> movementData;
+  std::vector<std::vector<double>> territoriesData;
+  std::vector<std::vector<double>> temperatureData;
+  std::vector<std::vector<double>> movementData;
   std::map<int, Territory> territories;
   std::list<Human> transitHumans;
   int incubationPeriod;
   int infectionDuration;
-  float initInfectedHumans;
-  float initInfectedMosquitoes;
+  double initInfectedHumans;
+  double initInfectedMosquitoes;
 };
 
 #endif  // SRC_SIMULATION_H_

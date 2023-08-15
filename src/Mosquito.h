@@ -24,11 +24,11 @@ class Mosquito {
   bool isAlive() { return alive; }
   bool isAdult() { return adult; }
   int getLifespan() { return lifespan; }
-  float getDevelopmentRate() { return developmentRate; }
+  double getDevelopmentRate() { return developmentRate; }
 
-  bool bite(float);
-  bool infectingBite(float, int);
-  bool infectiousBite(float);
+  bool bite(double);
+  bool infectingBite(double, int);
+  bool infectiousBite(double);
   void changeToInfected(int);
   void updateAge();
   void die();
@@ -36,7 +36,7 @@ class Mosquito {
   void updateBiteCount();
 
   bool operator==(const Mosquito& other) const;
-  Mosquito(int, int, int, int, int, float, int);
+  Mosquito(int, int, int, int, int, double, int);
   Mosquito();
   ~Mosquito();
 
@@ -57,7 +57,7 @@ class Mosquito {
   bool alive;
   bool adult;
   int lifespan;
-  float developmentRate;
+  double developmentRate;
 };
 
 #endif  // SRC_MOSQUITO_H_
