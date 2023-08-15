@@ -9,7 +9,7 @@
 #' If not provided it's automatically calculated from the demographic data using
 #' distance and population.
 #' @param demographic_data_MGN Boolean stating if the data is directly
-#' downloaded from MGN and needs preparing and cleaning.
+#' downloaded from MGN and needs filtering and cleaning.
 #' @param divipola_code Divipola code of the municipality to be simulated
 #' @param disease Character string for the disease name. Can be either "dengue",
 #' "zika" or "chikungunya".
@@ -35,24 +35,58 @@ setup <- function(demographic_data,
                   infection_duration = 14,
                   init_infected_humans = 0.005,
                   init_infected_mosquitoes = 0.03) {
-  if (demographic_data_MGN && !is.null(divipola_code)) {
-    demographic_data <- filter_demographic_data(demographic_data)
+  # Must exist
+  checkmate::assert_data_frame(demographic_data)
+  checkmate::assert_data_frame(temperature_data)
+  checkmate::assert_logical(demographic_data_MGN)
+  checkmate::assert_choice(disease, c("dengue", "zika", "chikungunya"))
+  checkmate::assert_numeric(incubation_period)
+  checkmate::assert_numeric(infection_duration)
+  checkmate::assert_numeric(init_infected_humans)
+  checkmate::assert_numeric(init_infected_mosquitoes)
+
+  stopifnot(
+    "`movement_data` must be a data frame" =
+      (inherits(movement_data, "data.frame") || is.null(movement_data))
+  )
+  stopifnot(
+    "`divipola_code` must be numeric" =
+      (is.numeric(divipola_code) || is.null(divipola_code))
+  )
+
+  if (demographic_data_MGN) {
+    if (is.null(divipola_code)) {
+      if (nrow(demographic_data) == 0) {
+        stop("Provided data is not enough for the simulation. Please check that
+             the input data has more than one observation and geometry")
+      }
+      demographic_data <- filter_demographic_data(demographic_data)
+    } else {
+      demographic_data <- filter_demographic_data(
+        demographic_data,
+        divipola_code
+      )
+    }
   }
 
   if (is.null(movement_data)) {
     movement_data <- flow_data(demographic_data)
   }
 
+  if (nrow(demographic_data) != nrow(movement_data)) {
+    stop("`demographic_data` and `movement_data` need to have the same length,
+         please check your inputs")
+  }
   model <- list(
     demographic_data = sf::st_drop_geometry(demographic_data),
     temperature_data = temperature_data,
     movement_data = movement_data,
     divipola_code = divipola_code,
     disease = disease,
-    incubation_period = incubation_period,
-    infection_duration = infection_duration,
+    incubation_period = as.integer(incubation_period),
+    infection_duration = as.integer(infection_duration),
     init_infected_humans = init_infected_humans,
-    init_infected_mosquito = init_infected_mosquitoes
+    init_infected_mosquitoes = init_infected_mosquitoes
   )
   class(model) <- "ABM_model"
 
@@ -72,23 +106,27 @@ setup <- function(demographic_data,
 #' \dontrun{
 #' filter_demographic_data(demographic_data)
 #' }
-filter_demographic_data <- function(demographic_data, divipola_code) {
-  filtered_data <- demographic_data[as.numeric(demographic_data$MPIO_CDPMP) ==
-    divipola_code & as.numeric(
-    demographic_data$SECR_CCDGO
-  ) == 0, c(
-    "SETU_CCDGO", "AREA", "LATITUD",
-    "LONGITUD", "STVIVIENDA",
-    "STP19_ALC1", "STP19_GAS1",
-    "STP27_PERS", "STP32_1_SE",
-    "STP32_2_SE", "STP34_1_ED",
-    "STP34_2_ED", "STP34_3_ED",
-    "STP34_4_ED", "STP34_5_ED",
-    "STP34_6_ED", "STP34_7_ED",
-    "STP34_8_ED", "STP34_9_ED",
-    "STP51_SUPE", "STP51_POST",
-    "geometry"
-  )]
+filter_demographic_data <- function(demographic_data, divipola_code = NULL) {
+  if (is.null(divipola_code)) {
+    filtered_data <- demographic_data[, c(
+      "SETU_CCDGO", "AREA", "LATITUD", "LONGITUD", "STVIVIENDA", "STP19_ALC1",
+      "STP19_GAS1", "STP27_PERS", "STP32_1_SE", "STP32_2_SE", "STP34_1_ED",
+      "STP34_2_ED", "STP34_3_ED", "STP34_4_ED", "STP34_5_ED", "STP34_6_ED",
+      "STP34_7_ED", "STP34_8_ED", "STP34_9_ED", "STP51_SUPE", "STP51_POST",
+      "geometry"
+    )]
+  } else {
+    filtered_data <- demographic_data[as.numeric(demographic_data$MPIO_CDPMP) ==
+      divipola_code & as.numeric(
+      demographic_data$SECR_CCDGO
+    ) == 0, c(
+      "SETU_CCDGO", "AREA", "LATITUD", "LONGITUD", "STVIVIENDA", "STP19_ALC1",
+      "STP19_GAS1", "STP27_PERS", "STP32_1_SE", "STP32_2_SE", "STP34_1_ED",
+      "STP34_2_ED", "STP34_3_ED", "STP34_4_ED", "STP34_5_ED", "STP34_6_ED",
+      "STP34_7_ED", "STP34_8_ED", "STP34_9_ED", "STP51_SUPE", "STP51_POST",
+      "geometry"
+    )]
+  }
 
   colnames(filtered_data) <- c(
     "territory", "area", "latitude", "longitude", "houses", "sewage", "gas",
@@ -135,6 +173,10 @@ filter_demographic_data <- function(demographic_data, divipola_code) {
 #' flow_data(geo_data)
 #' }
 flow_data <- function(geo_data) {
+  stopifnot(
+    "`geo_data` must have more than one observation" =
+      nrow(geo_data) > 1
+  )
   geo_data$territory <- seq(1, nrow(geo_data))
   coordinates <- as.data.frame(cbind(geo_data$longitude, geo_data$latitude))
   coordinates <- sf::st_as_sf(coordinates, coords = c("V1", "V2"))
