@@ -4,10 +4,10 @@
 \alias{simulation}
 \title{Run simulation for a given number of days.}
 \usage{
-simulation(ABM_model, time)
+simulation(ABM_data, time)
 }
 \arguments{
-\item{ABM_model}{S3 class object containing the parameters for the
+\item{ABM_data}{S3 class object containing the parameters for the
 simulation.}
 
 \item{time}{Integer for the amount of days to simulate.}
