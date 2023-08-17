@@ -2,6 +2,8 @@
 #ifndef SRC_SIMULATION_H_
 #define SRC_SIMULATION_H_
 
+// Simulation Class
+
 #include <Rcpp.h>
 
 #include <cstdlib>
@@ -15,7 +17,6 @@
 #include <vector>
 
 #include "Territory.h"
-// #include "Territory.cpp"
 
 class Simulation {
  public:
@@ -41,7 +42,6 @@ class Simulation {
 
   void initialize();
   Rcpp::DataFrame simulate();
-  // void simulate(int);
   void moveHumans();
 
  private:

@@ -16,10 +16,6 @@
 
 #include "Human.h"
 #include "Mosquito.h"
-// #include "Human.cpp"
-// #include "Mosquito.cpp"
-// #include <time.h>
-// #include <random>
 
 class Territory {
  public:

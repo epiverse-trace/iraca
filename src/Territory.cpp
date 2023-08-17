@@ -2,9 +2,6 @@
 
 #include "Territory.h"
 
-// std::random_device rd;
-// std::mt19937 gen(static_cast<unsigned int>(time(nullptr)));
-
 Territory::Territory(int _id, double _area, double _density, int _population,
                      const std::vector<double> &_ageProp, double _maleProp,
                      double _highedProp, double _gas, double _sewage,
@@ -52,21 +49,12 @@ void Territory::initializeHumans(double _infectedHumans = 0,
     // random position in grid
     int _positionX = static_cast<int>(R::runif(0, length));
     int _positionY = static_cast<int>(R::runif(0, width));
-    // std::uniform_int_distribution<> distrHumanX(0, length);
-    // int _positionX = distrHumanX(gen);
-    // std::uniform_int_distribution<> distrHumanY(0, width);
-    // int _positionY = distrHumanY(gen);
     newHuman.setHomeCoordinates(_positionX, _positionY);
 
     // Will human be infected?
     bool infectedHuman = R::runif(0, 1) <= _infectedHumans;
-    // std::uniform_real_distribution<> infected(0, 1.0);
-    // bool infectedHuman = infected(gen) < _infectedHumans;
     if (infectedHuman) {
       newHuman.changeToInfected(static_cast<int>(R::runif(-14, 0)));
-      // std::uniform_int_distribution<> changeInfH(-14, 0);
-      // int _tempInfH = changeInfH(gen);
-      // newHuman.changeToInfected(_tempInfH);
       newHuman.updateViremia(0);
     }
 
@@ -82,15 +70,9 @@ void Territory::initializeMosquitoes(int _ammount, double _infectedMosquitoes,
 
     if (!onlyLarvae) {
       _age = static_cast<int>(R::runif(0, 32));
-      // std::uniform_int_distribution<> ageM(0, 32);
-      // _age = ageM(gen);
     }
     int _positionX = static_cast<int>(R::runif(0, length));
     int _positionY = static_cast<int>(R::runif(0, width));
-    // std::uniform_int_distribution<> distrHumanX(0, length);
-    // int _positionX = distrHumanX(gen);
-    // std::uniform_int_distribution<> distrHumanY(0, width);
-    // int _positionY = distrHumanY(gen);
     double _developmentRate = 0.091;
     int _lifespan = 30;
     // mosquito creation
@@ -99,13 +81,8 @@ void Territory::initializeMosquitoes(int _ammount, double _infectedMosquitoes,
 
     // Is mosquito infected?
     bool infectedMosquito = R::runif(0, 1) <= _infectedMosquitoes;
-    // std::uniform_real_distribution<> infected_2(0, 1.0);
-    // bool infectedMosquito = infected_2(gen) < _infectedMosquitoes;
     if (infectedMosquito && !onlyLarvae) {
       newMosquito.changeToInfected(static_cast<int>(R::runif(-_lifespan, 0)));
-      // std::uniform_int_distribution<> changeInf(-_lifespan, 0);
-      // int _tempInf = changeInf(gen);
-      // newMosquito.changeToInfected(_tempInf);
       newMosquito.updateBiteCount();
     }
 
@@ -135,11 +112,11 @@ void Territory::updateDeathRates(double _temperature, int _days_ov_90) {
   deathRateAdults = static_cast<double>(
       0.8692 - 0.159 * temperature + 0.01116 * pow(temperature, 2) -
       0.0003409 * pow(temperature, 3) + 0.000003804 * pow(temperature, 4) +
-      0.027 + 0.047 * days_ov_90);
+      0.027 + 0.0014 * days_ov_90);
   deathRateAquatic = static_cast<double>(
       2.13 - 0.3797 * temperature + 0.02457 * pow(temperature, 2) -
       0.0006778 * pow(temperature, 3) + 0.000006792 * pow(temperature, 4) +
-      0.026 + 0.03 * days_ov_90);
+      0.026 + 0.006 * days_ov_90);
 }
 
 void Territory::updateBirthRate(double _temperature, int _days_ov_90) {
@@ -147,24 +124,19 @@ void Territory::updateBirthRate(double _temperature, int _days_ov_90) {
   double days_ov_90 = static_cast<double>(_days_ov_90);
   birthRate = static_cast<double>(
       -0.000016 * pow(temperature, 3) + 0.00117114 * pow(temperature, 2) -
-      0.024371 * temperature + 0.186171 + 0.004 + 0.018 * days_ov_90);
+      0.024371 * temperature + 0.186171 + 0.004 + 0.0005 * days_ov_90);
 }
 
 void Territory::moveMosquitoes() {
-  for (auto mosquito : mosquitoes) {
+  for (auto &mosquito : mosquitoes) {
     if (mosquito.isAdult()) {
-      Mosquito *tempMosquito = &mosquito;
-      int currentPositionX = tempMosquito->getPositionX();
-      int currentPositionY = tempMosquito->getPositionY();
+      int currentPositionX = mosquito.getPositionX();
+      int currentPositionY = mosquito.getPositionY();
 
       int newPositionX =
-          tempMosquito->getPositionX() + static_cast<int>(R::runif(-2, 2));
+          mosquito.getPositionX() + static_cast<int>(R::runif(-2, 2));
       int newPositionY =
-          tempMosquito->getPositionY() + static_cast<int>(R::runif(-2, 2));
-      // std::uniform_int_distribution<> distrHumanX(-2, 2);
-      // int newPositionX = distrHumanX(gen) + tempMosquito->getPositionX();
-      // std::uniform_int_distribution<> distrHumanY(-2, 2);
-      // int newPositionY = distrHumanY(gen) + tempMosquito->getPositionY();
+          mosquito.getPositionY() + static_cast<int>(R::runif(-2, 2));
       if (newPositionX <= length && newPositionX >= 0 &&
           abs(newPositionX - mosquito.getInitialPositionX()) <= 6) {
         currentPositionX = newPositionX;
@@ -174,28 +146,28 @@ void Territory::moveMosquitoes() {
         currentPositionY = newPositionY;
       }
 
-      tempMosquito->movement(currentPositionX, currentPositionY);
+      mosquito.movement(currentPositionX, currentPositionY);
     }
   }
 }
 
 void Territory::moveHumans() {
-  for (auto human : humans) {
-    Human *tempHuman = &human;
-    if (tempHuman->getHomeTerritory() == id) {
-      tempHuman->changeTerritory(tempHuman->getDailyTerritory());
-      tempHuman->updatePosition(tempHuman->getDailyTerritory(), 0, 0);
+  for (auto &human : humans) {
+    // If im at home then move to Daily
+    if (human.getCurrentTerritory() == id &&
+        human.getHomeTerritory() == id) {
+      human.changeTerritory(human.getDailyTerritory());
+      human.updatePosition(human.getDailyTerritory(), 0, 0);
     } else {
-      tempHuman->changeTerritory(tempHuman->getHomeTerritory());
-      tempHuman->updatePosition(tempHuman->getHomeTerritory(), 0, 0);
+      human.changeTerritory(human.getHomeTerritory());
+      human.updatePosition(human.getHomeTerritory(), 0, 0);
     }
   }
 }
 
 void Territory::updateHumans(int _day) {
-  for (auto human : humans) {
-    Human *tempHuman = &human;
-    tempHuman->updateViremia(_day);
+  for (auto &human : humans) {
+    human.updateViremia(_day);
   }
 }
 
@@ -210,15 +182,11 @@ void Territory::deathMosquitoes(double _temperature, double _maxTemperature) {
   for (auto mosquito : mosquitoes) {
     if (mosquito.isAdult()) {
       bool die = R::runif(0, 1) <= deathRateAdults;
-      // std::uniform_real_distribution<> death(0, 1.0);
-      // bool die = death(gen) < deathRateAdults;
       if (die) {
         mosquito.die();
       }
     } else {
       bool die = R::runif(0, 1) <= deathRateAquatic;
-      // std::uniform_real_distribution<> death_2(0, 1.0);
-      // bool die = death_2(gen) < deathRateAdults;
       if (die) {
         mosquito.die();
       }
@@ -227,19 +195,12 @@ void Territory::deathMosquitoes(double _temperature, double _maxTemperature) {
 }
 
 void Territory::updateMosquitoes() {
-  // int deaths = 0;
   for (auto &mosquito : mosquitoes) {
-    // Mosquito *tempMosquito = &mosquito;
     mosquito.updateAge();
-    // if (!mosquito.isAlive()) {
-    //   deaths++;
-    //   mosquitoes.remove(mosquito);
-    // }
   }
   auto predicate = [](auto mosquito) { return mosquito.isAlive() == false; };
   auto newEnd = std::remove_if(mosquitoes.begin(), mosquitoes.end(), predicate);
   mosquitoes.erase(newEnd, mosquitoes.end());
-  Rcpp::Rcout << "deleted mosquitoes from environment " << id << std::endl;
 }
 
 void Territory::interaction(int _day) {
@@ -300,8 +261,6 @@ int Territory::weightedRandom(std::vector<double> probabilities) {
     accumulated = transformed;
   }
   int randomInteger = Rcpp::sample(1000, 1)[0];
-  // std::uniform_int_distribution<> distInt(0, 1000);
-  // int randomInteger =  distInt(gen);
   for (int i = 0; i < static_cast<int>(probabilities.size()); i++) {
     if (randomInteger < transformedP[i]) {
       output = i;

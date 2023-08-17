@@ -7,7 +7,6 @@
 #include <vector>
 
 #include "Simulation.h"
-// #include "Simulation.cpp"
 
 //' @title run simulation
 //' @param nDays Number of days to simulate.
@@ -36,9 +35,8 @@ Rcpp::DataFrame simulate(int nDays, Rcpp::DataFrame demographicData,
   Simulation simulation(nDays, _demographicData, _temperatureData,
                         _movementData, incubationPeriod, infectionDuration,
                         initInfectedHumans, initInfectedMosquitoes);
-  Rcpp::Rcout << "Simulation object created" << std::endl;
-  simulation.simulate();
-  return 0;
+  Rcpp::DataFrame output = simulation.simulate();
+  return output;
 }
 
 int main() { return 0; }

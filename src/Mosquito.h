@@ -2,6 +2,8 @@
 #ifndef SRC_MOSQUITO_H_
 #define SRC_MOSQUITO_H_
 
+// Mosquito Class
+
 #include <Rcpp.h>
 
 #include <cstdlib>

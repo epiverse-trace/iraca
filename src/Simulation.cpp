@@ -90,15 +90,17 @@ Rcpp::DataFrame Simulation::simulate() {
       }
       for (auto &territory : territories) {
         Territory *tempTerritory = &territory.second;
+        // Move mosquitoes and humans
         tempTerritory->moveMosquitoes();
         tempTerritory->moveHumans();
-
-        transitHumans.assign(tempTerritory->humans.begin(),
+        // Assign to transitHumans
+        transitHumans.insert(transitHumans.end(), tempTerritory->humans.begin(),
                              tempTerritory->humans.end());
         tempTerritory->resetHumans();
       }
+      // Repopulate environments
       for (auto human : transitHumans) {
-        territories[human.getcurrentTerritory()].addHuman(human);
+        territories[human.getCurrentTerritory()].addHuman(human);
       }
       transitHumans.clear();
     }
@@ -109,16 +111,19 @@ Rcpp::DataFrame Simulation::simulate() {
       infected += localSIR[1];
       recovered += localSIR[2];
       tempTerritory->updateMosquitoes();
-      Rcpp::Rcout << "Done with day " << std::to_string(day) << std::endl;
       tempTerritory->updateHumans(day);
       tempTerritory->deathMosquitoes(temperatureData[0][day],
                                      temperatureData[1][day]);
       tempTerritory->birthMosquitoes(temperatureData[0][day],
                                      temperatureData[1][day]);
     }
+    Rcpp::Rcout << "suceptible " << suceptible << std::endl;
+    Rcpp::Rcout << "infected " << infected << std::endl;
+    Rcpp::Rcout << "recovered " << recovered << std::endl;
     vectorS.push_back(suceptible);
     vectorI.push_back(infected);
     vectorR.push_back(recovered);
+    Rcpp::Rcout << "Done with day " << std::to_string(day) << std::endl;
   }
   Rcpp::DataFrame SIRM = Rcpp::DataFrame::create(Rcpp::Named("S") = vectorS,
                                                  Rcpp::Named("I") = vectorI,
