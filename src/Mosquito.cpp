@@ -35,7 +35,6 @@ bool Mosquito::operator==(const Mosquito& other) const {
 }
 
 // Mosquito bite
-// if(0.2 <= _biteProbability) on inner if
 bool Mosquito::bite(double _biteProbability) {
   bool output = false;
   if (adult) {

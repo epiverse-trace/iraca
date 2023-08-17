@@ -3,6 +3,7 @@
 #define SRC_HUMAN_H_
 
 // Human Class
+
 #include <cstdlib>
 #include <iostream>
 #include <string>
@@ -15,7 +16,7 @@ class Human {
   int getAge() { return age; }
   std::string getGender() { return gender; }
   int getHighEd() { return highEd; }
-  int getcurrentTerritory() { return currentTerritory; }
+  int getCurrentTerritory() { return currentTerritory; }
   int getPositionX() { return positionX; }
   int getPositionY() { return positionY; }
   int getHomeTerritory() { return homeTerritory; }

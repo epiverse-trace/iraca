@@ -50,12 +50,12 @@ void Human::setDayOfInfection(int _day) {
 // if not viremia and infected, and infected over 4 days ago turn on viremia
 void Human::updateViremia(int _day) {
   if (state == "I" && viremia == false) {
-    if (_day - dayOfInfection >= 4 && dayOfInfection < 99999) {
+    if (_day - dayOfInfection >= incubationPeriod && dayOfInfection < 99999) {
       viremia = true;
     }
   }
   if (viremia == true) {
-    if (state == "I" && _day - dayOfInfection > 14) {
+    if (state == "I" && _day - dayOfInfection > infectionDuration) {
       changeToRecovered();
       viremia = false;
     }
