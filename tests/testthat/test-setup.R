@@ -43,7 +43,7 @@ test_that("Seup throws expected object", {
     demographic_data = iraca::demographic_data_ibague,
     temperature_data = iraca::temperature_data_ibague,
     divipola_code = 73001
-  ), "ABM_model")
+  ), "abm_data")
   expect_length(setup(
     demographic_data = iraca::demographic_data_ibague,
     temperature_data = iraca::temperature_data_ibague,

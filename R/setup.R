@@ -88,7 +88,7 @@ setup <- function(demographic_data,
     init_infected_humans = init_infected_humans,
     init_infected_mosquitoes = init_infected_mosquitoes
   )
-  class(model) <- "ABM_model"
+  class(model) <- "abm_data"
 
   return(model)
 }
