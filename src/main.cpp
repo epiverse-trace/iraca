@@ -18,13 +18,14 @@
 //' @param infectionDuration Infection duration of the disease.
 //' @param initInfectedHumans Percentage of initially infected humans.
 //' @param initInfectedMosquitoes Percentage of initially infected mosquitoes.
-//' @export
+//' @return Dataframe with susceptible, infected an recovered individuals each
+//' day
+//' @keywords internal
 // [[Rcpp::export]]
-Rcpp::DataFrame simulate(int nDays, Rcpp::DataFrame demographicData,
-                         Rcpp::DataFrame temperatureData,
-                         Rcpp::DataFrame movementData, int incubationPeriod,
-                         int infectionDuration, double initInfectedHumans,
-                         double initInfectedMosquitoes) {
+Rcpp::DataFrame internal_simulation_cpp(
+    int nDays, Rcpp::DataFrame demographicData, Rcpp::DataFrame temperatureData,
+    Rcpp::DataFrame movementData, int incubationPeriod, int infectionDuration,
+    double initInfectedHumans, double initInfectedMosquitoes) {
   std::vector<std::vector<double>> _demographicData =
       Rcpp::as<std::vector<std::vector<double>>>(demographicData);
   std::vector<std::vector<double>> _temperatureData =
