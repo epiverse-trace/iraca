@@ -65,7 +65,7 @@ Rcpp::DataFrame Simulation::simulate() {
   std::vector<int> vectorR = {};
   for (int day = 0; day < days; day++) {
     Rcpp::Rcout << "Day " << std::to_string(day) << std::endl;
-    int suceptible = 0;
+    int susceptible = 0;
     int infected = 0;
     int recovered = 0;
     if (day == 0) {
@@ -107,7 +107,7 @@ Rcpp::DataFrame Simulation::simulate() {
     for (auto &territory : territories) {
       Territory *tempTerritory = &territory.second;
       std::vector<int> localSIR = tempTerritory->contagions();
-      suceptible += localSIR[0];
+      susceptible += localSIR[0];
       infected += localSIR[1];
       recovered += localSIR[2];
       tempTerritory->updateMosquitoes();
@@ -117,10 +117,10 @@ Rcpp::DataFrame Simulation::simulate() {
       tempTerritory->birthMosquitoes(temperatureData[0][day],
                                      temperatureData[1][day]);
     }
-    Rcpp::Rcout << "suceptible " << suceptible << std::endl;
+    Rcpp::Rcout << "susceptible " << susceptible << std::endl;
     Rcpp::Rcout << "infected " << infected << std::endl;
     Rcpp::Rcout << "recovered " << recovered << std::endl;
-    vectorS.push_back(suceptible);
+    vectorS.push_back(susceptible);
     vectorI.push_back(infected);
     vectorR.push_back(recovered);
     Rcpp::Rcout << "Done with day " << std::to_string(day) << std::endl;
