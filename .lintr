@@ -12,4 +12,5 @@ linters: linters_with_tags(
   )
 exclusions: list(
     "tests/testthat.R" = list(unused_import_linter = Inf)
+    "R/RcppExports.R"
   )
