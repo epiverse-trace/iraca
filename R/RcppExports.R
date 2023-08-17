@@ -11,8 +11,10 @@
 #' @param infectionDuration Infection duration of the disease.
 #' @param initInfectedHumans Percentage of initially infected humans.
 #' @param initInfectedMosquitoes Percentage of initially infected mosquitoes.
-#' @export
-simulate <- function(nDays, demographicData, temperatureData, movementData, incubationPeriod, infectionDuration, initInfectedHumans, initInfectedMosquitoes) {
-    .Call(`_iraca_simulate`, nDays, demographicData, temperatureData, movementData, incubationPeriod, infectionDuration, initInfectedHumans, initInfectedMosquitoes)
+#' @return Dataframe with susceptible, infected an recovered individuals each
+#' day
+#' @keywords internal
+internal_simulation_cpp <- function(nDays, demographicData, temperatureData, movementData, incubationPeriod, infectionDuration, initInfectedHumans, initInfectedMosquitoes) {
+    .Call(`_iraca_internal_simulation_cpp`, nDays, demographicData, temperatureData, movementData, incubationPeriod, infectionDuration, initInfectedHumans, initInfectedMosquitoes)
 }
 
