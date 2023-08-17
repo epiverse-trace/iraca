@@ -12,7 +12,7 @@
 #' @export
 simulation <- function(ABM_model, time) {
   SIR_simulation <- simulate(
-    time,
+    as.integer(time),
     ABM_model$demographic_data,
     ABM_model$temperature_data,
     ABM_model$movement_data,
