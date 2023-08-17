@@ -11,9 +11,9 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
-// simulate
-Rcpp::DataFrame simulate(int nDays, Rcpp::DataFrame demographicData, Rcpp::DataFrame temperatureData, Rcpp::DataFrame movementData, int incubationPeriod, int infectionDuration, double initInfectedHumans, double initInfectedMosquitoes);
-RcppExport SEXP _iraca_simulate(SEXP nDaysSEXP, SEXP demographicDataSEXP, SEXP temperatureDataSEXP, SEXP movementDataSEXP, SEXP incubationPeriodSEXP, SEXP infectionDurationSEXP, SEXP initInfectedHumansSEXP, SEXP initInfectedMosquitoesSEXP) {
+// internal_simulation_cpp
+Rcpp::DataFrame internal_simulation_cpp(int nDays, Rcpp::DataFrame demographicData, Rcpp::DataFrame temperatureData, Rcpp::DataFrame movementData, int incubationPeriod, int infectionDuration, double initInfectedHumans, double initInfectedMosquitoes);
+RcppExport SEXP _iraca_internal_simulation_cpp(SEXP nDaysSEXP, SEXP demographicDataSEXP, SEXP temperatureDataSEXP, SEXP movementDataSEXP, SEXP incubationPeriodSEXP, SEXP infectionDurationSEXP, SEXP initInfectedHumansSEXP, SEXP initInfectedMosquitoesSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -25,13 +25,13 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< int >::type infectionDuration(infectionDurationSEXP);
     Rcpp::traits::input_parameter< double >::type initInfectedHumans(initInfectedHumansSEXP);
     Rcpp::traits::input_parameter< double >::type initInfectedMosquitoes(initInfectedMosquitoesSEXP);
-    rcpp_result_gen = Rcpp::wrap(simulate(nDays, demographicData, temperatureData, movementData, incubationPeriod, infectionDuration, initInfectedHumans, initInfectedMosquitoes));
+    rcpp_result_gen = Rcpp::wrap(internal_simulation_cpp(nDays, demographicData, temperatureData, movementData, incubationPeriod, infectionDuration, initInfectedHumans, initInfectedMosquitoes));
     return rcpp_result_gen;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_iraca_simulate", (DL_FUNC) &_iraca_simulate, 8},
+    {"_iraca_internal_simulation_cpp", (DL_FUNC) &_iraca_internal_simulation_cpp, 8},
     {NULL, NULL, 0}
 };
 
