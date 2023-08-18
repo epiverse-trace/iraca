@@ -1,7 +1,7 @@
-
-ABM_test <- iraca::setup(iraca::demographic_data_ibague, 
-                         iraca::temperature_data_ibague, 
-                         divipola_code = 73001)
+ABM_test <- iraca::setup(iraca::demographic_data_ibague,
+  iraca::temperature_data_ibague,
+  divipola_code = 73001
+)
 ABM_test_wrong <- unclass(ABM_test)
 
 
