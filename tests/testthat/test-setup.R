@@ -29,7 +29,7 @@ test_that("Setup errors are thrown", {
   ))
   expect_error(setup(
     demographic_data = iraca::demographic_data_ibague[0, ],
-    temperature_data = iraca::temperature_data_ibague,
+    temperature_data = iraca::temperature_data_ibague
   ))
   expect_error(setup(
     demographic_data = iraca::demographic_data_ibague[1, ],
