@@ -16,6 +16,9 @@
     <loc>/index.html</loc>
   </url>
   <url>
+    <loc>/reference/demographic_data_ibague.html</loc>
+  </url>
+  <url>
     <loc>/reference/filter_demographic_data.html</loc>
   </url>
   <url>
@@ -25,9 +28,18 @@
     <loc>/reference/index.html</loc>
   </url>
   <url>
-    <loc>/reference/main.html</loc>
+    <loc>/reference/internal_simulation_cpp.html</loc>
+  </url>
+  <url>
+    <loc>/reference/movement_data_ibague.html</loc>
   </url>
   <url>
     <loc>/reference/setup.html</loc>
+  </url>
+  <url>
+    <loc>/reference/simulation.html</loc>
+  </url>
+  <url>
+    <loc>/reference/temperature_data_ibague.html</loc>
   </url>
 </urlset>

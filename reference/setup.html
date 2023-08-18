@@ -55,9 +55,10 @@
 <span>  demographic_data_MGN <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  divipola_code <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  disease <span class="op">=</span> <span class="st">"dengue"</span>,</span>
-<span>  incubation_period <span class="op">=</span> <span class="fl">14</span>,</span>
+<span>  incubation_period <span class="op">=</span> <span class="fl">4</span>,</span>
+<span>  infection_duration <span class="op">=</span> <span class="fl">14</span>,</span>
 <span>  init_infected_humans <span class="op">=</span> <span class="fl">0.005</span>,</span>
-<span>  init_infected_mosquito <span class="op">=</span> <span class="fl">0.03</span></span>
+<span>  init_infected_mosquitoes <span class="op">=</span> <span class="fl">0.03</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -77,12 +78,12 @@ expected to be input from the historic data at IDEAM´s historic temperature</p>
 <dt>movement_data</dt>
 <dd><p>Data frame with the movement flow between territories.
 If not provided it's automatically calculated from the demographic data using
-distance and population</p></dd>
+distance and population.</p></dd>
 
 
 <dt>demographic_data_MGN</dt>
 <dd><p>Boolean stating if the data is directly
-downloaded from MGN and needs preparing and cleaning</p></dd>
+downloaded from MGN and needs filtering and cleaning.</p></dd>
 
 
 <dt>divipola_code</dt>
@@ -95,22 +96,26 @@ downloaded from MGN and needs preparing and cleaning</p></dd>
 
 
 <dt>incubation_period</dt>
-<dd><p>Incubation period of the disease</p></dd>
+<dd><p>Incubation period of the disease.</p></dd>
+
+
+<dt>infection_duration</dt>
+<dd><p>Infection duration of the disease.</p></dd>
 
 
 <dt>init_infected_humans</dt>
-<dd><p>Percentage of initially infected humans</p></dd>
+<dd><p>Percentage of initially infected humans.</p></dd>
 
 
-<dt>init_infected_mosquito</dt>
-<dd><p>Percentage of initially infected mosquitoes</p></dd>
+<dt>init_infected_mosquitoes</dt>
+<dd><p>Percentage of initially infected mosquitoes.</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>S3 ABM_model object with the saved initial parameters</p>
+<p>S3 ABM_model object with the saved initial parameters.</p>
     </div>
 
     <div class="section level2">
