@@ -47,9 +47,7 @@ setup <- function(demographic_data,
 
   stopifnot(
     "`movement_data` must be a data frame" =
-      (inherits(movement_data, "data.frame") || is.null(movement_data))
-  )
-  stopifnot(
+      (inherits(movement_data, "data.frame") || is.null(movement_data)),
     "`divipola_code` must be numeric" =
       (is.numeric(divipola_code) || is.null(divipola_code))
   )
