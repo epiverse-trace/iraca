@@ -22,7 +22,8 @@ Config/Needs/website:
     epiverse-trace/epiversetheme
 Language: en-US
 LinkingTo: 
-    Rcpp
+    Rcpp,
+    BH
 Imports: 
     checkmate,
     Rcpp,

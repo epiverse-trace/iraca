@@ -15,6 +15,12 @@
 #include <string>
 #include <utility>
 #include <vector>
+#include <boost/geometry.hpp>
+#include <boost/geometry/geometries/geometries.hpp>
+#include <boost/geometry/geometries/point.hpp>
+#include <boost/geometry/geometries/polygon.hpp>
+#include <boost/geometry/geometries/multi_polygon.hpp>
+#include <boost/geometry/geometries/box.hpp>
 
 #include "Territory.h"
 
@@ -30,13 +36,14 @@ class Simulation {
   }
   std::vector<std::vector<double>> getMovementData() { return movementData; }
   int getIncubationPeriod() { return incubationPeriod; }
-  int fetInfectionDuration() { return infectionDuration; }
+  int getInfectionDuration() { return infectionDuration; }
   double getInitInfectedHumans() { return initInfectedHumans; }
   double getInitInfectedMosquitoes() { return initInfectedMosquitoes; }
 
   Simulation(int, const std::vector<std::vector<double>>&,
              const std::vector<std::vector<double>>&,
-             const std::vector<std::vector<double>>&, int, int, double, double);
+             const std::vector<std::vector<double>>&, int, int, double, double,
+             const std::vector<std::string>&);
 
   ~Simulation();
 
@@ -55,6 +62,7 @@ class Simulation {
   int infectionDuration;
   double initInfectedHumans;
   double initInfectedMosquitoes;
+  std::vector<std::string> geometries;
 };
 
 #endif  // SRC_SIMULATION_H_

@@ -2,10 +2,14 @@
 
 #include "Territory.h"
 
-Territory::Territory(int _id, double _area, double _density, int _population,
-                     const std::vector<double> &_ageProp, double _maleProp,
-                     double _highedProp, double _gas, double _sewage,
-                     const std::vector<double> &_movementPatterns)
+Territory::Territory(
+    int _id, double _area, double _density, int _population,
+    const std::vector<double> &_ageProp, double _maleProp, double _highedProp,
+    double _gas, double _sewage, const std::vector<double> &_movementPatterns,
+    boost::geometry::model::multi_polygon<
+        boost::geometry::model::polygon<boost::geometry::model::point<
+            double, 2, boost::geometry::cs::cartesian>>>
+        _geometry)
     : humans({}),
       mosquitoes({}),
       ageProp(_ageProp),
@@ -13,7 +17,7 @@ Territory::Territory(int _id, double _area, double _density, int _population,
   id = _id;
   area = _area;
   width = static_cast<int>(round(sqrt(_area / 1.6) / 22));
-  // horizontal, 1.6 ratio between v and h, 10m blocks (can be changed)
+  //  horizontal, 1.6 ratio between v and h, 10m blocks (can be changed)
   length = static_cast<int>(round(sqrt(_area / 1.6) * 1.6 / 22));
   density = _density;
   population = _population;
@@ -24,6 +28,23 @@ Territory::Territory(int _id, double _area, double _density, int _population,
   birthRate = 0.04;
   deathRateAdults = 0.04;
   deathRateAquatic = 0.04;
+  boost::geometry::model::box<
+      boost::geometry::model::point<double, 2, boost::geometry::cs::cartesian>>
+      bbox;
+  boost::geometry::envelope(geometry, bbox);
+  double min_x = bbox.min_corner().get<0>();
+  double max_x = bbox.max_corner().get<0>();
+  double min_y = bbox.min_corner().get<1>();
+  double max_y = bbox.max_corner().get<1>();
+  coordsX = {min_x, max_x};
+  coordsY = {min_y, max_y};
+  geometry = _geometry;
+  boost::geometry::index::rtree<
+      std::pair<boost::geometry::model::point<double, 2,
+                                              boost::geometry::cs::cartesian>,
+                Human *>,
+      boost::geometry::index::rstar<4>>
+      humansTree;
 }
 
 Territory::Territory() {}
@@ -47,8 +68,8 @@ void Territory::initializeHumans(double _infectedHumans = 0,
                    _infectionDuration, id, _dailyEnv, 0.65);
 
     // random position in grid
-    int _positionX = static_cast<int>(R::runif(0, length));
-    int _positionY = static_cast<int>(R::runif(0, width));
+    double _positionX = R::runif(coordsX[0], coordsX[1]);
+    double _positionY = R::runif(coordsY[0], coordsY[1]);
     newHuman.setHomeCoordinates(_positionX, _positionY);
 
     // Will human be infected?
@@ -63,16 +84,16 @@ void Territory::initializeHumans(double _infectedHumans = 0,
   }
 }
 
-void Territory::initializeMosquitoes(int _ammount, double _infectedMosquitoes,
+void Territory::initializeMosquitoes(int _amount, double _infectedMosquitoes,
                                      bool onlyLarvae = true) {
-  for (int mos = 0; mos <= _ammount; mos++) {
+  for (int mos = 0; mos <= _amount; mos++) {
     int _age = 0;
 
     if (!onlyLarvae) {
       _age = static_cast<int>(R::runif(0, 32));
     }
-    int _positionX = static_cast<int>(R::runif(0, length));
-    int _positionY = static_cast<int>(R::runif(0, width));
+    double _positionX = R::runif(coordsX[0], coordsX[1]);
+    double _positionY = R::runif(coordsY[0], coordsY[1]);
     double _developmentRate = 0.091;
     int _lifespan = 30;
     // mosquito creation
@@ -91,7 +112,12 @@ void Territory::initializeMosquitoes(int _ammount, double _infectedMosquitoes,
 }
 
 // Add and remove humans and mosquitoes
-void Territory::addHuman(Human _human) { humans.push_back(_human); }
+void Territory::addHuman(Human _human) {
+  boost::geometry::model::point<double, 2, boost::geometry::cs::cartesian>
+      location(_human.getPositionX(), _human.getPositionY());
+  humansTree.insert(std::make_pair(location, &_human));
+  humans.push_back(_human);
+}
 
 void Territory::removeHuman(Human _human) { humans.remove(_human); }
 
@@ -130,13 +156,11 @@ void Territory::updateBirthRate(double _temperature, int _days_ov_90) {
 void Territory::moveMosquitoes() {
   for (auto &mosquito : mosquitoes) {
     if (mosquito.isAdult()) {
-      int currentPositionX = mosquito.getPositionX();
-      int currentPositionY = mosquito.getPositionY();
+      double currentPositionX = mosquito.getPositionX();
+      double currentPositionY = mosquito.getPositionY();
 
-      int newPositionX =
-          mosquito.getPositionX() + static_cast<int>(R::runif(-2, 2));
-      int newPositionY =
-          mosquito.getPositionY() + static_cast<int>(R::runif(-2, 2));
+      double newPositionX = mosquito.getPositionX() + (R::runif(-2, 2));
+      double newPositionY = mosquito.getPositionY() + (R::runif(-2, 2));
       if (newPositionX <= length && newPositionX >= 0 &&
           abs(newPositionX - mosquito.getInitialPositionX()) <= 6) {
         currentPositionX = newPositionX;
@@ -154,8 +178,7 @@ void Territory::moveMosquitoes() {
 void Territory::moveHumans() {
   for (auto &human : humans) {
     // If im at home then move to Daily
-    if (human.getCurrentTerritory() == id &&
-        human.getHomeTerritory() == id) {
+    if (human.getCurrentTerritory() == id && human.getHomeTerritory() == id) {
       human.changeTerritory(human.getDailyTerritory());
       human.updatePosition(human.getDailyTerritory(), 0, 0);
     } else {
@@ -204,19 +227,37 @@ void Territory::updateMosquitoes() {
 }
 
 void Territory::interaction(int _day) {
-  for (auto &human : humans) {
-    for (auto &mosquito : mosquitoes) {
-      // Check if human and mosquito are in the same position
-      if (checkProximity(human, mosquito)) {
-        // Try to bite
-        if (mosquito.bite(human.getBiteRate())) {
+  double buffer_distance = 1000/111139;  //  distance in meters
+
+  for (auto &mosquito : mosquitoes) {
+    auto query_point = mosquito.location;
+    std::vector<std::pair<boost::geometry::model::point<
+                              double, 2, boost::geometry::cs::cartesian>,
+                          Human *>>
+        result;
+    humansTree.query(
+        boost::geometry::index::satisfies(
+            [&query_point, &buffer_distance](
+                const std::pair<boost::geometry::model::point<
+                                    double, 2, boost::geometry::cs::cartesian>,
+                                Human *> &value) {
+              return boost::geometry::distance(value.first, query_point) <=
+                     buffer_distance;
+            }),
+        std::back_inserter(result));
+
+    if (!result.empty()) {
+      int max_iter = std::min(static_cast<int>(result.size()), 2);
+      for (int i = 0; i < max_iter; i++) {
+        Human *human = result[i].second;
+        if (mosquito.bite(human->getBiteRate())) {
           // Could or not be infectuous
           if (mosquito.isInfected()) {
             // Mosquit to Human intection
             if (mosquito.infectingBite(0.11, _day)) {
-              human.changeToInfected(_day);
+              human->changeToInfected(_day);
             }
-          } else if (human.getViremia()) {
+          } else if (human->getViremia()) {
             // Human to Mosquito intection
             if (mosquito.infectiousBite(1)) {
               mosquito.changeToInfected(_day);
@@ -227,6 +268,29 @@ void Territory::interaction(int _day) {
     }
   }
 }
+
+// for (auto &human : humans) {
+//   for (auto &mosquito : mosquitoes) {
+//     // Check if human and mosquito are in the same position
+//     if (checkProximity(human, mosquito)) {
+//       // Try to bite
+//       if (mosquito.bite(human.getBiteRate())) {
+//         // Could or not be infectuous
+//         if (mosquito.isInfected()) {
+//           // Mosquit to Human intection
+//           if (mosquito.infectingBite(0.11, _day)) {
+//             human.changeToInfected(_day);
+//           }
+//         } else if (human.getViremia()) {
+//           // Human to Mosquito intection
+//           if (mosquito.infectiousBite(1)) {
+//             mosquito.changeToInfected(_day);
+//           }
+//         }
+//       }
+//     }
+//   }
+// }
 
 bool Territory::checkProximity(Human human, Mosquito mosquito) {
   bool sameLocation = false;

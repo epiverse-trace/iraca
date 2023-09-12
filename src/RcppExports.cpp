@@ -12,8 +12,8 @@ Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
 // internal_simulation_cpp
-Rcpp::DataFrame internal_simulation_cpp(int nDays, Rcpp::DataFrame demographicData, Rcpp::DataFrame temperatureData, Rcpp::DataFrame movementData, int incubationPeriod, int infectionDuration, double initInfectedHumans, double initInfectedMosquitoes);
-RcppExport SEXP _iraca_internal_simulation_cpp(SEXP nDaysSEXP, SEXP demographicDataSEXP, SEXP temperatureDataSEXP, SEXP movementDataSEXP, SEXP incubationPeriodSEXP, SEXP infectionDurationSEXP, SEXP initInfectedHumansSEXP, SEXP initInfectedMosquitoesSEXP) {
+Rcpp::DataFrame internal_simulation_cpp(int nDays, Rcpp::DataFrame demographicData, Rcpp::DataFrame temperatureData, Rcpp::DataFrame movementData, int incubationPeriod, int infectionDuration, double initInfectedHumans, double initInfectedMosquitoes, Rcpp::StringVector geometries);
+RcppExport SEXP _iraca_internal_simulation_cpp(SEXP nDaysSEXP, SEXP demographicDataSEXP, SEXP temperatureDataSEXP, SEXP movementDataSEXP, SEXP incubationPeriodSEXP, SEXP infectionDurationSEXP, SEXP initInfectedHumansSEXP, SEXP initInfectedMosquitoesSEXP, SEXP geometriesSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -25,13 +25,25 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< int >::type infectionDuration(infectionDurationSEXP);
     Rcpp::traits::input_parameter< double >::type initInfectedHumans(initInfectedHumansSEXP);
     Rcpp::traits::input_parameter< double >::type initInfectedMosquitoes(initInfectedMosquitoesSEXP);
-    rcpp_result_gen = Rcpp::wrap(internal_simulation_cpp(nDays, demographicData, temperatureData, movementData, incubationPeriod, infectionDuration, initInfectedHumans, initInfectedMosquitoes));
+    Rcpp::traits::input_parameter< Rcpp::StringVector >::type geometries(geometriesSEXP);
+    rcpp_result_gen = Rcpp::wrap(internal_simulation_cpp(nDays, demographicData, temperatureData, movementData, incubationPeriod, infectionDuration, initInfectedHumans, initInfectedMosquitoes, geometries));
     return rcpp_result_gen;
+END_RCPP
+}
+// testGeometry
+void testGeometry(const std::string& wkt_t2);
+RcppExport SEXP _iraca_testGeometry(SEXP wkt_t2SEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const std::string& >::type wkt_t2(wkt_t2SEXP);
+    testGeometry(wkt_t2);
+    return R_NilValue;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_iraca_internal_simulation_cpp", (DL_FUNC) &_iraca_internal_simulation_cpp, 8},
+    {"_iraca_internal_simulation_cpp", (DL_FUNC) &_iraca_internal_simulation_cpp, 9},
+    {"_iraca_testGeometry", (DL_FUNC) &_iraca_testGeometry, 1},
     {NULL, NULL, 0}
 };
 

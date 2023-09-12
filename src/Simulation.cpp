@@ -8,10 +8,12 @@ Simulation::Simulation(int _days,
                        const std::vector<std::vector<double>> &_movementData,
                        int _incubationPeriod, int _infectionDuration,
                        double _initInfectedHumans,
-                       double _initInfectedMosquitoes)
+                       double _initInfectedMosquitoes,
+                       const std::vector<std::string>& _geometries)
     : territoriesData(_territoriesData),
       temperatureData(_temperatureData),
       movementData(_movementData),
+      geometries(_geometries),
       territories({}),
       transitHumans({}) {
   days = _days;
@@ -43,9 +45,13 @@ void Simulation::initialize() {
     double maleProp = territoriesData[8][ter];
     double highEdProp = territoriesData[20][ter];
     std::vector<double> movementPatterns = movementData[ter];
+    boost::geometry::model::multi_polygon<boost::geometry::model::polygon<
+    boost::geometry::model::point<double, 2, boost::geometry::cs::cartesian>>>
+    geom;
+    boost::geometry::read_wkt(geometries[ter], geom);
     // Territory creation
     Territory newTerritory(ter, area, density, population, ageProp, maleProp,
-                           highEdProp, gas, sewage, movementPatterns);
+                           highEdProp, gas, sewage, movementPatterns, geom);
     // Internal intialization
     newTerritory.initializeHumans(initInfectedHumans, incubationPeriod,
                                   infectionDuration);
@@ -73,10 +79,10 @@ Rcpp::DataFrame Simulation::simulate() {
         Territory *tempTerritory = &territory.second;
         for (auto &human : tempTerritory->humans) {
           int dailyEnv = human.getDailyTerritory();
-          int _positionX =
-              static_cast<int>(R::runif(0, territories[dailyEnv].getLength()));
-          int _positionY =
-              static_cast<int>(R::runif(0, territories[dailyEnv].getWidth()));
+          int _positionX = 0;
+              // static_cast<int>(R::runif(0, territories[dailyEnv].getLength()));
+          int _positionY = 1;
+              // static_cast<int>(R::runif(0, territories[dailyEnv].getWidth()));
           human.setDailyCoordinates(_positionX, _positionY);  // RETHINK THIS
         }
       }

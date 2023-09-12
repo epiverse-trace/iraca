@@ -6,6 +6,9 @@
 
 #include <Rcpp.h>
 
+#include <boost/geometry.hpp>
+#include <boost/geometry/geometries/geometries.hpp>
+#include <boost/geometry/geometries/point.hpp>
 #include <cstdlib>
 #include <iostream>
 #include <vector>
@@ -16,10 +19,10 @@ class Mosquito {
   bool isInfected() { return infected; }
   int getAge() { return age; }
   int getCurrentTerritory() { return currentTerritory; }
-  int getPositionX() { return positionX; }
-  int getPositionY() { return positionY; }
-  int getInitialPositionX() { return initialPositionX; }
-  int getInitialPositionY() { return initialPositionY; }
+  double getPositionX() { return positionX; }
+  double getPositionY() { return positionY; }
+  double getInitialPositionX() { return initialPositionX; }
+  double getInitialPositionY() { return initialPositionY; }
   int getDayOfInfection() { return dayOfInfection; }
   int getBiteCount() { return biteCount; }
   int getNeededBites() { return neededBites; }
@@ -34,23 +37,26 @@ class Mosquito {
   void changeToInfected(int);
   void updateAge();
   void die();
-  void movement(int, int);
+  void movement(double, double);
   void updateBiteCount();
 
   bool operator==(const Mosquito& other) const;
-  Mosquito(int, int, int, int, int, double, int);
+  Mosquito(int, int, double, double, int, double, int);
   Mosquito();
   ~Mosquito();
+
+  boost::geometry::model::point<double, 2, boost::geometry::cs::cartesian>
+      location;
 
  private:
   int id;
   bool infected;
   int age;
   int currentTerritory;
-  int positionX;
-  int positionY;
-  int initialPositionX;
-  int initialPositionY;
+  double positionX;
+  double positionY;
+  double initialPositionX;
+  double initialPositionY;
   int dayOfInfection;
   int biteCount;
   int neededBites;

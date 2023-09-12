@@ -75,6 +75,9 @@ setup <- function(demographic_data,
     stop("`demographic_data` and `movement_data` need to have the same length,
          please check your inputs")
   }
+  
+  geometry_text <- extract_geometry_as_text(demographic_data)
+  
   model <- list(
     demographic_data = sf::st_drop_geometry(demographic_data),
     temperature_data = temperature_data,
@@ -84,7 +87,8 @@ setup <- function(demographic_data,
     incubation_period = as.integer(incubation_period),
     infection_duration = as.integer(infection_duration),
     init_infected_humans = init_infected_humans,
-    init_infected_mosquitoes = init_infected_mosquitoes
+    init_infected_mosquitoes = init_infected_mosquitoes,
+    geometry_text = geometry_text
   )
   class(model) <- "abm_data"
 
@@ -202,4 +206,34 @@ flow_data <- function(geo_data) {
     scale = colSums(flow_matrix)
   ))
   return(flow_matrix)
+}
+
+#' Extract geometry from shapefile and export it as a character vector
+#'
+#' @param geo_data Shapefile object with geographical data
+#'
+#' @return Vector with shapefile's geometry as wkt
+#' @examples
+#' \dontrun{
+#' extract_geometry_as_text(geo_data)
+#' }
+#' @keywords internal
+extract_geometry_as_text <- function(geo_data){
+  transformed <- sf::st_make_valid(geo_data)
+  simplified <- sf::st_simplify(transformed)
+  only_geometry <- sf::st_geometry(transformed)
+  geometry_text <- sapply(only_geometry, function(i) sf::st_as_text(i), 
+                          simplify = TRUE)
+  return(geometry_text)
+}
+
+
+#' Test function
+#'
+#' @return "done" statement
+#' @export
+test_gg <- function()
+{
+  testGeometry("string")
+  return("done")
 }

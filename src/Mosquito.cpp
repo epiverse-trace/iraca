@@ -3,7 +3,7 @@
 #include "Mosquito.h"
 
 // Initialization (different ages and probability to )
-Mosquito::Mosquito(int _id, int _age, int _positionX, int _positionY,
+Mosquito::Mosquito(int _id, int _age, double _positionX, double _positionY,
                    int _currentTerritory, double _developmentRate,
                    int _lifespan) {
   id = _id;
@@ -23,6 +23,9 @@ Mosquito::Mosquito(int _id, int _age, int _positionX, int _positionY,
   adult = (_age * _developmentRate >= 1) ? true : false;
   lifespan = _lifespan;
   developmentRate = _developmentRate;
+  location = boost::geometry::model::point<
+      double, 2, boost::geometry::cs::cartesian>(
+      _positionX, _positionY);
 }
 
 Mosquito::Mosquito() {}
@@ -85,9 +88,12 @@ void Mosquito::updateAge() {
 void Mosquito::die() { alive = false; }
 
 // Movement
-void Mosquito::movement(int _positionX, int _positionY) {
+void Mosquito::movement(double _positionX, double _positionY) {
   positionX = _positionX;
   positionY = _positionY;
+  location = boost::geometry::model::point<
+      double, 2, boost::geometry::cs::cartesian>(
+      _positionX, _positionY);
 }
 
 // Bite count

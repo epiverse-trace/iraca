@@ -5,7 +5,10 @@
 Human::Human(int _id, int _age, const std::string& _gender, int _highEd,
              int _incubationPeriod, int _infectionDuration, int _homeTerritory,
              int _dailyTerritory, double _biteRate)
-    : state("S"), gender(_gender), homeCoordinates({}), dailyCoordinates({}) {
+    : state("S"),
+    gender(_gender),
+    homeCoordinates({}),
+    dailyCoordinates({}) {
   id = _id;
   age = _age;
   highEd = _highEd;
@@ -68,17 +71,19 @@ void Human::changeTerritory(int _territoryId) {
 }
 
 // Set coordinates for daily interaction (work/school)
-void Human::setDailyCoordinates(int _positionX, int _positionY) {
+void Human::setDailyCoordinates(double _positionX, double _positionY) {
   dailyCoordinates = {_positionX, _positionY};
+  dailyLocation = boost::geometry::model::point<double, 2, boost::geometry::cs::cartesian>(_positionX, _positionY);
 }
 
 // Set coordinates for home
-void Human::setHomeCoordinates(int _positionX, int _positionY) {
+void Human::setHomeCoordinates(double _positionX, double _positionY) {
   homeCoordinates = {_positionX, _positionY};
+  homeLocation = boost::geometry::model::point<double, 2, boost::geometry::cs::cartesian>(_positionX, _positionY);
 }
 
 // Update position (constant if home or work/school)
-void Human::updatePosition(int _territoryId, int _positionX, int _positionY) {
+void Human::updatePosition(int _territoryId, double _positionX, double _positionY) {
   if (_territoryId == dailyTerritory) {
     positionX = dailyCoordinates[0];
     positionY = dailyCoordinates[1];

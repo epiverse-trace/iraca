@@ -11,10 +11,15 @@
 #' @param infectionDuration Infection duration of the disease.
 #' @param initInfectedHumans Percentage of initially infected humans.
 #' @param initInfectedMosquitoes Percentage of initially infected mosquitoes.
+#' @param geometries Geometries as text.
 #' @return Dataframe with susceptible, infected an recovered individuals each
 #' day
 #' @keywords internal
-internal_simulation_cpp <- function(nDays, demographicData, temperatureData, movementData, incubationPeriod, infectionDuration, initInfectedHumans, initInfectedMosquitoes) {
-    .Call(`_iraca_internal_simulation_cpp`, nDays, demographicData, temperatureData, movementData, incubationPeriod, infectionDuration, initInfectedHumans, initInfectedMosquitoes)
+internal_simulation_cpp <- function(nDays, demographicData, temperatureData, movementData, incubationPeriod, infectionDuration, initInfectedHumans, initInfectedMosquitoes, geometries) {
+    .Call(`_iraca_internal_simulation_cpp`, nDays, demographicData, temperatureData, movementData, incubationPeriod, infectionDuration, initInfectedHumans, initInfectedMosquitoes, geometries)
+}
+
+testGeometry <- function(wkt_t2) {
+    invisible(.Call(`_iraca_testGeometry`, wkt_t2))
 }
 

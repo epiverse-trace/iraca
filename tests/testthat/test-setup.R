@@ -48,7 +48,7 @@ test_that("Seup throws expected object", {
     demographic_data = iraca::demographic_data_ibague,
     temperature_data = iraca::temperature_data_ibague,
     divipola_code = 73001
-  ), 9)
+  ), 10L)
 
   ABM_test_model <- setup(
     demographic_data = iraca::demographic_data_ibague,
@@ -63,4 +63,5 @@ test_that("Seup throws expected object", {
   expect_type(ABM_test_model$infection_duration, "integer")
   expect_type(ABM_test_model$init_infected_humans, "double")
   expect_type(ABM_test_model$init_infected_mosquitoes, "double")
+  expect_type(ABM_test_model$geometry_text, "character")
 })

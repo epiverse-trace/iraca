@@ -4,6 +4,9 @@
 
 // Human Class
 
+#include <boost/geometry.hpp>
+#include <boost/geometry/geometries/geometries.hpp>
+#include <boost/geometry/geometries/point.hpp>
 #include <cstdlib>
 #include <iostream>
 #include <string>
@@ -17,8 +20,8 @@ class Human {
   std::string getGender() { return gender; }
   int getHighEd() { return highEd; }
   int getCurrentTerritory() { return currentTerritory; }
-  int getPositionX() { return positionX; }
-  int getPositionY() { return positionY; }
+  double getPositionX() { return positionX; }
+  double getPositionY() { return positionY; }
   int getHomeTerritory() { return homeTerritory; }
   int getDailyTerritory() { return dailyTerritory; }
   int getIncubationPeriod() { return incubationPeriod; }
@@ -27,22 +30,28 @@ class Human {
   bool getViremia() { return viremia; }
   double getBiteRate() { return biteRate; }
 
-  std::vector<int> getHomeCoordinates() { return homeCoordinates; }
-  std::vector<int> getDailyCoordinates() { return dailyCoordinates; }
+  std::vector<double> getHomeCoordinates() { return homeCoordinates; }
+  std::vector<double> getDailyCoordinates() { return dailyCoordinates; }
 
   void changeToInfected(int);
   void changeToRecovered();
   void setDayOfInfection(int);
   void updateViremia(int);
   void changeTerritory(int);
-  void setDailyCoordinates(int, int);
-  void setHomeCoordinates(int, int);
-  void updatePosition(int, int, int);
+  void setDailyCoordinates(double, double);
+  void setHomeCoordinates(double, double);
+  void updatePosition(int, double, double);
   void updateBiteRate(double);
 
   bool operator==(const Human &other) const;
   Human(int, int, const std::string &, int, int, int, int, int, double);
   Human();
+  boost::geometry::model::point<double, 2, boost::geometry::cs::cartesian>
+      location;
+  boost::geometry::model::point<double, 2, boost::geometry::cs::cartesian>
+      homeLocation;
+  boost::geometry::model::point<double, 2, boost::geometry::cs::cartesian>
+      dailyLocation;
 
  private:
   int id;
@@ -51,8 +60,8 @@ class Human {
   std::string gender;
   bool highEd;
   int currentTerritory;
-  int positionX;
-  int positionY;
+  double positionX;
+  double positionY;
   int homeTerritory;
   int dailyTerritory;
   int incubationPeriod;
@@ -60,8 +69,8 @@ class Human {
   int dayOfInfection;
   bool viremia;
   double biteRate;
-  std::vector<int> homeCoordinates;
-  std::vector<int> dailyCoordinates;
+  std::vector<double> homeCoordinates;
+  std::vector<double> dailyCoordinates;
 };
 
 #endif  // SRC_HUMAN_H_

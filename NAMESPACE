@@ -2,5 +2,6 @@
 
 export(setup)
 export(simulation)
+export(test_gg)
 importFrom(Rcpp,sourceCpp)
 useDynLib(iraca, .registration = TRUE)

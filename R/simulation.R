@@ -21,7 +21,8 @@ simulation <- function(ABM_data, time) {
     ABM_data$incubation_period,
     ABM_data$infection_duration,
     ABM_data$init_infected_humans,
-    ABM_data$init_infected_mosquito
+    ABM_data$init_infected_mosquito,
+    ABM_data$geometry_text
   )
 
   return(SIR_simulation)

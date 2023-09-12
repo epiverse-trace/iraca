@@ -18,6 +18,7 @@
 //' @param infectionDuration Infection duration of the disease.
 //' @param initInfectedHumans Percentage of initially infected humans.
 //' @param initInfectedMosquitoes Percentage of initially infected mosquitoes.
+//' @param geometries Geometries as text.
 //' @return Dataframe with susceptible, infected an recovered individuals each
 //' day
 //' @keywords internal
@@ -25,19 +26,25 @@
 Rcpp::DataFrame internal_simulation_cpp(
     int nDays, Rcpp::DataFrame demographicData, Rcpp::DataFrame temperatureData,
     Rcpp::DataFrame movementData, int incubationPeriod, int infectionDuration,
-    double initInfectedHumans, double initInfectedMosquitoes) {
+    double initInfectedHumans, double initInfectedMosquitoes,
+    Rcpp::StringVector geometries) {
   std::vector<std::vector<double>> _demographicData =
       Rcpp::as<std::vector<std::vector<double>>>(demographicData);
   std::vector<std::vector<double>> _temperatureData =
       Rcpp::as<std::vector<std::vector<double>>>(temperatureData);
   std::vector<std::vector<double>> _movementData =
       Rcpp::as<std::vector<std::vector<double>>>(movementData);
-
+  std::vector<std::string> _geometries(geometries.size());
+  const int n_geometries = geometries.size();
+  for (int i = 0; i < n_geometries; i++) {
+    _geometries[i] = (geometries(i));
+  }
+  std::cout << "here" << std::endl;
   Simulation simulation(nDays, _demographicData, _temperatureData,
                         _movementData, incubationPeriod, infectionDuration,
-                        initInfectedHumans, initInfectedMosquitoes);
+                        initInfectedHumans, initInfectedMosquitoes,
+                        _geometries);
   Rcpp::DataFrame output = simulation.simulate();
   return output;
 }
 
-int main() { return 0; }

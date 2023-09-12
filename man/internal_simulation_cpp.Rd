@@ -12,7 +12,8 @@ internal_simulation_cpp(
   incubationPeriod,
   infectionDuration,
   initInfectedHumans,
-  initInfectedMosquitoes
+  initInfectedMosquitoes,
+  geometries
 )
 }
 \arguments{
@@ -32,6 +33,8 @@ synthetic population.}
 \item{initInfectedHumans}{Percentage of initially infected humans.}
 
 \item{initInfectedMosquitoes}{Percentage of initially infected mosquitoes.}
+
+\item{geometries}{Geometries as text.}
 }
 \value{
 Dataframe with susceptible, infected an recovered individuals each
