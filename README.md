@@ -129,8 +129,8 @@ simulation(ABM_data = model,
 ```
 
 To allow larger and faster simulations, the model implementation relies
-on C++ and is liked to R through ´Rcpp´. The library uses only
-`S3`object to make data input and output as simple as possible for the
+on C++ and is liked to R through `Rcpp`. The library uses only `S3`
+objects to make data input and output as simple as possible for the
 user.
 
 ### Lifecycle
@@ -143,9 +143,9 @@ package is not ready for use outside of the development team.
 After further consideration, this package development is temporarily
 halted. Usability issues were contemplated regarding the actual use in
 the local context given the lack of human resources and time
-constraints; in addition, ethical concerns were also taken into account,
-given that the open release of very sensitive tools which relies on fine
-tuning and calibration could easily lead to poor evidence production for
+constraints. In addition, ethical concerns were also taken into account,
+since the open release of very sensitive tools which rely on fine tuning
+and calibration could easily lead to poor evidence production for
 decision-making.
 
 ### Contributions

@@ -93,7 +93,7 @@ simulation(ABM_data = model,
            time = 100)
 ```
 
-To allow larger and faster simulations, the model implementation relies on C++ and is liked to R through ´Rcpp´. The library uses only `S3`object to make data input and output as simple as possible for the user.
+To allow larger and faster simulations, the model implementation relies on C++ and is liked to R through `Rcpp`. The library uses only `S3` objects to make data input and output as simple as possible for the user.
 
 ### Lifecycle
 
@@ -102,7 +102,7 @@ lifecycle](https://www.reconverse.org/lifecycle.html). This means that essential
 features and mechanisms are still being developed, and the package is not ready
 for use outside of the development team.
 
-After further consideration, this package development is temporarily halted. Usability issues were contemplated regarding the actual use in the local context given the lack of human resources and time constraints; in addition, ethical concerns were also taken into account, given that the open release of very sensitive tools which relies on fine tuning and calibration could easily lead to poor evidence production for decision-making.
+After further consideration, this package development is temporarily halted. Usability issues were contemplated regarding the actual use in the local context given the lack of human resources and time constraints. In addition, ethical concerns were also taken into account, since the open release of very sensitive tools which rely on fine tuning and calibration could easily lead to poor evidence production for decision-making.
 
 ### Contributions
 
